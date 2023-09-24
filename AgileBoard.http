@@ -1,0 +1,31 @@
+@url = http://localhost:5032
+
+@epicId = 1
+
+###
+GET {{url}}/epics
+
+###
+GET {{url}}/epics/{{epicId}}
+
+###
+POST {{url}}/epics
+Content-Type: application/json
+
+{
+    "name": "Test1",
+    "description": "TestDescription",
+    "acceptanceCriteria": "TestAcceptanceCritera"
+}
+
+###
+PUT {{url}}/epics
+
+POST {{url}}/epics/{{epicId}}
+Content-Type: application/json
+
+{
+    "name": "Test1",
+    "description": "TestDescription",
+    "acceptanceCriteria": "TestAcceptanceCritera"
+}
