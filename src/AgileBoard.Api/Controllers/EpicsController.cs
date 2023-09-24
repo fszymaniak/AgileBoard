@@ -1,4 +1,5 @@
 ﻿using AgileBoard.Api.Models;
+using AgileBoard.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgileBoard.Api.Controllers;
@@ -7,16 +8,15 @@ namespace AgileBoard.Api.Controllers;
 [Route("epics")]
 public sealed class EpicsController : ControllerBase
 {
-    private static int _id = 1;
-    private static readonly List<Epic> Epics = new();
+    private readonly EpicsService _service = new();
 
     [HttpGet]
-    public ActionResult<IEnumerable<Epic>> Get() => Ok(Epics);
+    public ActionResult<IEnumerable<Epic>> Get() => Ok(_service.GetAll());
 
     [HttpGet("{id:int}")]
     public ActionResult<Epic> Get(int id)
     {
-        var epic = Epics.SingleOrDefault(e => e.Id == id);
+        var epic = _service.Get(id);
         if (epic is null)
         {
             return NotFound();
@@ -28,52 +28,35 @@ public sealed class EpicsController : ControllerBase
     [HttpPost]
     public ActionResult Post(Epic epic)
     {
-        var epicNameAlreadyExists = Epics.Any(e => e.Name == epic.Name);
-        
-        if (epicNameAlreadyExists)
+        var id = _service.Create(epic);
+        if (id is null)
         {
             return BadRequest();
         }
-        
-        epic.Id = _id;
-        epic.Status = "New";
-        epic.CreatedDate = DateTime.UtcNow;
-        _id++;
-        
-        Epics.Add(epic);
 
-        return CreatedAtAction(nameof(Get), new { id = epic.Id }, null);
+        return CreatedAtAction(nameof(Get), new { id }, null);
     }
 
     [HttpPut("{id:int}")]
     public ActionResult<Epic> Put(int id, Epic epic)
     {
-        var existingEpic = Epics.SingleOrDefault(e => e.Id == id);
-        
-        if (existingEpic is null)
+        epic.Id = id;
+        if (_service.Update(epic))
         {
-            return NotFound();
+            return NoContent();
         }
 
-        existingEpic.Name = epic.Name;
-        existingEpic.Status = epic.Status;
-        existingEpic.Description = epic.Description;
-        existingEpic.AcceptanceCriteria = epic.AcceptanceCriteria;
-
-        return NoContent();
+        return NotFound();
     }
 
     [HttpDelete("{id:int}")]
     public ActionResult Delete(int id)
     {
-        var existingEpic = Epics.SingleOrDefault(e => e.Id == id);
-        
-        if (existingEpic is null)
+        if (_service.Delete(id))
         {
-            return NotFound();
+            return NoContent();
         }
 
-        Epics.Remove(existingEpic);
-        return NoContent();
+        return NotFound();
     }
 }
