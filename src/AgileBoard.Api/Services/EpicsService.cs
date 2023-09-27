@@ -1,62 +1,51 @@
-﻿using AgileBoard.Api.Models;
+﻿using AgileBoard.Api.Commands;
+using AgileBoard.Api.Entities;
 
 namespace AgileBoard.Api.Services;
 
 public sealed class EpicsService
 {
-    private static int _id = 1;
-    private static readonly List<Epic> Epics = new();
+    private static List<Epic> _epics = new();
 
-    public Epic Get(int id) => Epics.SingleOrDefault(e => e.Id == id);
+    public Epic Get(Guid id) => GetAll().SingleOrDefault(e => e.Id == id);
 
-    public IEnumerable<Epic> GetAll() => Epics;
+    public IEnumerable<Epic> GetAll() => _epics;
 
-    public int? Create(Epic epic)
+    public Guid? Create(CreateEpic command)
     {
-        var epicNameAlreadyExists = Epics.Any(e => e.Name == epic.Name);
-        
-        if (epicNameAlreadyExists)
-        {
-            return default;
-        }
-        
-        epic.Id = _id;
-        epic.Status = "New";
-        epic.CreatedDate = DateTime.UtcNow;
-        _id++;
-        
-        Epics.Add(epic);
+        var epic = new Epic(command.Id, command.Name, command.Status, command.Description, command.AcceptanceCriteria, command.CreatedDate);
+        _epics.Add(epic);
 
         return epic.Id;
     }
 
-    public bool Update(Epic epic)
+    public bool Update(UpdateEpic command)
     {
-        var existingEpic = Epics.SingleOrDefault(e => e.Id == epic.Id);
+        var existingEpic = GetAll().SingleOrDefault(e => e.Id == command.EpicId);
         
         if (existingEpic is null)
         {
             return false;
         }
 
-        existingEpic.Name = epic.Name;
-        existingEpic.Status = epic.Status;
-        existingEpic.Description = epic.Description;
-        existingEpic.AcceptanceCriteria = epic.AcceptanceCriteria;
+        existingEpic.ChangeName(command.Name);
+        existingEpic.ChangeStatus(command.Status);
+        existingEpic.ChangeDescription(command.Description);
+        existingEpic.ChangeAcceptanceCriteria(command.AcceptanceCriteria);
 
         return true;
     }
 
-    public bool Delete(int id)
+    public bool Delete(DeleteEpic command)
     {
-        var existingEpic = Epics.SingleOrDefault(e => e.Id == id);
+        var existingEpic = Get(command.EpicId);
         
         if (existingEpic is null)
         {
             return false;
         }
 
-        Epics.Remove(existingEpic);
+        _epics.Remove(existingEpic);
         return true;
     }
 }

@@ -1,4 +1,5 @@
-﻿using AgileBoard.Api.Models;
+﻿using AgileBoard.Api.Commands;
+using AgileBoard.Api.Entities;
 using AgileBoard.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,8 +14,8 @@ public sealed class EpicsController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<Epic>> Get() => Ok(_service.GetAll());
 
-    [HttpGet("{id:int}")]
-    public ActionResult<Epic> Get(int id)
+    [HttpGet("{id:guid}")]
+    public ActionResult<Epic> Get(Guid id)
     {
         var epic = _service.Get(id);
         if (epic is null)
@@ -26,9 +27,10 @@ public sealed class EpicsController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult Post(Epic epic)
+    public ActionResult Post(CreateEpic command)
     {
-        var id = _service.Create(epic);
+        var id = _service.Create(command with { Id = Guid.NewGuid(), Status = "New", CreatedDate = DateTime.Now });
+        
         if (id is null)
         {
             return BadRequest();
@@ -37,11 +39,10 @@ public sealed class EpicsController : ControllerBase
         return CreatedAtAction(nameof(Get), new { id }, null);
     }
 
-    [HttpPut("{id:int}")]
-    public ActionResult<Epic> Put(int id, Epic epic)
+    [HttpPut("{id:guid}")]
+    public ActionResult<Epic> Put(Guid id, UpdateEpic command)
     {
-        epic.Id = id;
-        if (_service.Update(epic))
+        if (_service.Update(command with { EpicId = id }))
         {
             return NoContent();
         }
@@ -49,10 +50,10 @@ public sealed class EpicsController : ControllerBase
         return NotFound();
     }
 
-    [HttpDelete("{id:int}")]
-    public ActionResult Delete(int id)
+    [HttpDelete("{id:guid}")]
+    public ActionResult Delete(Guid id)
     {
-        if (_service.Delete(id))
+        if (_service.Delete(new DeleteEpic(id)))
         {
             return NoContent();
         }

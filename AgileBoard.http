@@ -1,6 +1,7 @@
 @url = http://localhost:5032
 
-@epicId = 1
+@epicId = b7f05c08-5178-45bc-ab0c-afc41d1d289e
+@epicId2 = ccdf6a07-8c47-47d8-be4c-4e07376c15aa
 
 ###
 GET {{url}}/epics
@@ -19,13 +20,15 @@ Content-Type: application/json
 }
 
 ###
-PUT {{url}}/epics
-
-POST {{url}}/epics/{{epicId}}
+PUT {{url}}/epics/{{epicId}}
 Content-Type: application/json
 
 {
-    "name": "Test1",
-    "description": "TestDescription",
-    "acceptanceCriteria": "TestAcceptanceCritera"
+    "name": "TestUpdated",
+    "description": "TestDescriptionUpdated",
+    "acceptanceCriteria": "TestAcceptanceCriteraUpdated",
+    "status": "InProgress"
 }
+
+###
+DELETE {{url}}/epics/{{epicId}}

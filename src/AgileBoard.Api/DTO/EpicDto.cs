@@ -1,9 +1,9 @@
-﻿namespace AgileBoard.Api.Models;
+﻿namespace AgileBoard.Api.DTO;
 
-public sealed class Epic
+public class EpicDto
 {
-    public int Id { get; set; }
-
+    public Guid Id { get; set; }
+    
     public string Name { get; set; }
 
     public string Status { get; set; }
