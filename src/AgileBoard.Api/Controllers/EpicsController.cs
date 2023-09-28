@@ -9,6 +9,7 @@ namespace AgileBoard.Api.Controllers;
 [Route("epics")]
 public sealed class EpicsController : ControllerBase
 {
+    private static readonly Clock Clock = new();
     private readonly EpicsService _service = new();
 
     [HttpGet]
@@ -29,7 +30,7 @@ public sealed class EpicsController : ControllerBase
     [HttpPost]
     public ActionResult Post(CreateEpic command)
     {
-        var id = _service.Create(command with { Id = Guid.NewGuid(), Status = "New", CreatedDate = DateTime.Now });
+        var id = _service.Create(command with { Id = Guid.NewGuid(), Status = "New", CreatedDate = Clock.Current });
         
         if (id is null)
         {
