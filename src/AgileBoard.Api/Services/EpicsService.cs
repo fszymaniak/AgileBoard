@@ -1,5 +1,6 @@
 ﻿using AgileBoard.Api.Commands;
 using AgileBoard.Api.Entities;
+using AgileBoard.Api.ValueObjects;
 
 namespace AgileBoard.Api.Services;
 
@@ -7,7 +8,7 @@ public sealed class EpicsService
 {
     private static List<Epic> _epics = new();
 
-    public Epic Get(Guid id) => GetAll().SingleOrDefault(e => e.Id == id);
+    public Epic Get(EpicId id) => GetAll().SingleOrDefault(e => e.Id == id);
 
     public IEnumerable<Epic> GetAll() => _epics;
 
@@ -21,7 +22,7 @@ public sealed class EpicsService
 
     public bool Update(UpdateEpic command)
     {
-        var existingEpic = GetAll().SingleOrDefault(e => e.Id == command.EpicId);
+        var existingEpic = GetAll().SingleOrDefault(e => e.Id.Equals(command.Id));
         
         if (existingEpic is null)
         {

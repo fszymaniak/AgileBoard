@@ -1,22 +1,23 @@
 ﻿using AgileBoard.Api.Exceptions;
+using AgileBoard.Api.ValueObjects;
 
 namespace AgileBoard.Api.Entities;
 
 public sealed class Epic
 {
-    public Guid Id { get; }
+    public EpicId Id { get; }
     
-    public string Name { get; private set; }
+    public Name Name { get; private set; }
 
-    public string Status { get; private set; }
+    public Status Status { get; private set; }
 
-    public string Description { get; private set; }
+    public Description Description { get; private set; }
 
-    public string AcceptanceCriteria { get; private set; }
+    public AcceptanceCriteria AcceptanceCriteria { get; private set; }
 
-    public DateTime CreatedDate { get; private set; }
+    public Date CreatedDate { get; private set; }
     
-    public Epic(Guid id, string name, string status, string description, string acceptanceCriteria, DateTime createdDate)
+    public Epic(EpicId id, Name name, Status status, Description description, AcceptanceCriteria acceptanceCriteria, Date createdDate)
     {
         Id = id;
         Name = name;
@@ -50,7 +51,7 @@ public sealed class Epic
     {
         if (string.IsNullOrWhiteSpace(description))
         {
-            throw new EmptyDescriptionException();
+            throw new InvalidDescriptionException(description);
         }
 
         Description = description;

@@ -43,7 +43,7 @@ public sealed class EpicsController : ControllerBase
     [HttpPut("{id:guid}")]
     public ActionResult<Epic> Put(Guid id, UpdateEpic command)
     {
-        if (_service.Update(command with { EpicId = id }))
+        if (_service.Update(command with { Id = id }))
         {
             return NoContent();
         }
