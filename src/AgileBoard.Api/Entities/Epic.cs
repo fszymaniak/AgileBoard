@@ -51,7 +51,7 @@ public sealed class Epic
     {
         if (string.IsNullOrWhiteSpace(description))
         {
-            throw new InvalidDescriptionException(description);
+            throw new EmptyDescriptionException();
         }
 
         Description = description;
