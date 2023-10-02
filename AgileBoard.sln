@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{392D7080-187
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgileBoard.Api", "src\AgileBoard.Api\AgileBoard.Api.csproj", "{DAD0EB12-68C6-46AC-80DF-F1D9D3AA7092}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{693C6248-37FF-4F02-BDCB-D8869BC9C249}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgileBoard.Unit.Tests", "tests\AgileBoard.Unit.Tests\AgileBoard.Unit.Tests.csproj", "{1CB3908B-45BA-4134-9302-D9A3F6EB50E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,8 +24,13 @@ Global
 		{DAD0EB12-68C6-46AC-80DF-F1D9D3AA7092}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAD0EB12-68C6-46AC-80DF-F1D9D3AA7092}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAD0EB12-68C6-46AC-80DF-F1D9D3AA7092}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CB3908B-45BA-4134-9302-D9A3F6EB50E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CB3908B-45BA-4134-9302-D9A3F6EB50E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CB3908B-45BA-4134-9302-D9A3F6EB50E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CB3908B-45BA-4134-9302-D9A3F6EB50E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DAD0EB12-68C6-46AC-80DF-F1D9D3AA7092} = {392D7080-1875-467E-8667-5797E0FD8960}
+		{1CB3908B-45BA-4134-9302-D9A3F6EB50E3} = {693C6248-37FF-4F02-BDCB-D8869BC9C249}
 	EndGlobalSection
 EndGlobal
