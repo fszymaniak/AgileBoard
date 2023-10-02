@@ -2,7 +2,7 @@
 
 public class EmptyNameException : CustomException
 {
-    public EmptyNameException() : base("Name is empty")
+    public EmptyNameException() : base("Name is empty.")
     {
     }
 }

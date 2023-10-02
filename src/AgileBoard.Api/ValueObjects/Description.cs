@@ -8,9 +8,14 @@ public sealed record Description
 
     public Description(string value)
     {
-        if (string.IsNullOrEmpty(value) || value.Length > 500)
+        if (string.IsNullOrEmpty(value))
         {
-            throw new InvalidDescriptionException(value);
+            throw new EmptyDescriptionException();
+        }
+        
+        if (value.Length > 500)
+        {
+            throw new DescriptionOverMaxCharLimit();
         }
 
         Value = value;
