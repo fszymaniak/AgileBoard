@@ -1,6 +1,7 @@
 ﻿using AgileBoard.Api.Commands;
 using AgileBoard.Api.Entities;
-using AgileBoard.Api.Services;
+using AgileBoard.Api.Services.Clock;
+using AgileBoard.Api.Services.EpicsService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgileBoard.Api.Controllers;
@@ -9,8 +10,14 @@ namespace AgileBoard.Api.Controllers;
 [Route("epics")]
 public sealed class EpicsController : ControllerBase
 {
-    private static readonly Clock Clock = new();
-    private readonly EpicsService _service = new();
+    private readonly IEpicsService _service;
+    private readonly IClock _clock;
+
+    public EpicsController(IEpicsService service, IClock clock)
+    {
+        _service = service;
+        _clock = clock;
+    }
 
     [HttpGet]
     public ActionResult<IEnumerable<Epic>> Get() => Ok(_service.GetAll());
@@ -30,7 +37,7 @@ public sealed class EpicsController : ControllerBase
     [HttpPost]
     public ActionResult Post(CreateEpic command)
     {
-        var id = _service.Create(command with { Id = Guid.NewGuid(), Status = "New", CreatedDate = Clock.Current });
+        var id = _service.Create(command with { Id = Guid.NewGuid(), Status = "New", CreatedDate = _clock.Current() });
         
         if (id is null)
         {
