@@ -2,17 +2,17 @@
 
 namespace AgileBoard.Api.DTO;
 
-public class EpicDto
+public sealed class EpicDto
 {
-    public EpicId Id { get; set; }
+    public Guid Id { get; set; }
     
-    public Name Name { get; set; }
+    public string Name { get; set; }
 
-    public Status Status { get; set; }
+    public string Status { get; set; }
 
-    public Description Description { get; set; }
+    public string Description { get; set; }
 
-    public AcceptanceCriteria AcceptanceCriteria { get; set; }
+    public string AcceptanceCriteria { get; set; }
 
-    public Date CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; }
 }
