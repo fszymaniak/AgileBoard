@@ -1,21 +1,20 @@
 ﻿using AgileBoard.Api.Commands;
 using AgileBoard.Api.Entities;
-using AgileBoard.Api.ValueObjects;
 
-namespace AgileBoard.Api.Services;
+namespace AgileBoard.Api.Services.EpicsService;
 
-public sealed class EpicsService
+public sealed class EpicsService : IEpicsService
 {
-    private static List<Epic> _epics = new();
+    private static readonly List<Epic> Epics = new();
 
-    public Epic Get(EpicId id) => GetAll().SingleOrDefault(e => e.Id == id);
+    public Epic Get(Guid? id) => GetAll().SingleOrDefault(e => e.Id.Equals(id));
 
-    public IEnumerable<Epic> GetAll() => _epics;
-
+    public IEnumerable<Epic> GetAll() => Epics;
+    
     public Guid? Create(CreateEpic command)
     {
         var epic = new Epic(command.Id, command.Name, command.Status, command.Description, command.AcceptanceCriteria, command.CreatedDate);
-        _epics.Add(epic);
+        Epics.Add(epic);
 
         return epic.Id;
     }
@@ -46,7 +45,7 @@ public sealed class EpicsService
             return false;
         }
 
-        _epics.Remove(existingEpic);
+        Epics.Remove(existingEpic);
         return true;
     }
 }
