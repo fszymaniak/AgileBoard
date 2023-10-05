@@ -114,10 +114,10 @@ public class EpicsServiceTests
 
     private void Cleanup()
     {
-        var allEpics = _epicsService.GetAll();
-        foreach (var epic in allEpics)
+        var allEpics = _epicsService.GetAll().ToList();
+        for (var i = 0; i < allEpics.Count; i++)
         {
-            _epicsService.Delete(new DeleteEpic(epic.Id));
+            _epicsService.Delete(new DeleteEpic(allEpics[i].Id));
         }
     }
 
