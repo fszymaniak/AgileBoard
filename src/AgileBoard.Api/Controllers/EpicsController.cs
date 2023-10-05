@@ -1,7 +1,7 @@
-﻿using AgileBoard.Api.Commands;
-using AgileBoard.Api.Entities;
-using AgileBoard.Api.Services.Clock;
-using AgileBoard.Api.Services.EpicsService;
+﻿using AgileBoard.Application.Commands;
+using AgileBoard.Application.Services.Clock;
+using AgileBoard.Application.Services.EpicsService;
+using AgileBoard.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgileBoard.Api.Controllers;

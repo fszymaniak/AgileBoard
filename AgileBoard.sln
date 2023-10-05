@@ -9,7 +9,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgileBoard.Api", "src\Agile
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{693C6248-37FF-4F02-BDCB-D8869BC9C249}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgileBoard.Unit.Tests", "tests\AgileBoard.Unit.Tests\AgileBoard.Unit.Tests.csproj", "{1CB3908B-45BA-4134-9302-D9A3F6EB50E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgileBoard.Tests.Unit", "tests\AgileBoard.Tests.Unit\AgileBoard.Tests.Unit.csproj", "{1CB3908B-45BA-4134-9302-D9A3F6EB50E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgileBoard.Core", "src\AgileBoard.Core\AgileBoard.Core.csproj", "{22DBCFFD-1851-421D-A527-1B94464728F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgileBoard.Application", "src\AgileBoard.Application\AgileBoard.Application.csproj", "{F2592052-8A17-4207-9220-99C71C544093}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgileBoard.Infrastructure", "src\AgileBoard.Infrastructure\AgileBoard.Infrastructure.csproj", "{387B3E01-C9F9-4DA3-8E8D-3079F6E70E07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,9 +34,24 @@ Global
 		{1CB3908B-45BA-4134-9302-D9A3F6EB50E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CB3908B-45BA-4134-9302-D9A3F6EB50E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CB3908B-45BA-4134-9302-D9A3F6EB50E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22DBCFFD-1851-421D-A527-1B94464728F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22DBCFFD-1851-421D-A527-1B94464728F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22DBCFFD-1851-421D-A527-1B94464728F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22DBCFFD-1851-421D-A527-1B94464728F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2592052-8A17-4207-9220-99C71C544093}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2592052-8A17-4207-9220-99C71C544093}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2592052-8A17-4207-9220-99C71C544093}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2592052-8A17-4207-9220-99C71C544093}.Release|Any CPU.Build.0 = Release|Any CPU
+		{387B3E01-C9F9-4DA3-8E8D-3079F6E70E07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{387B3E01-C9F9-4DA3-8E8D-3079F6E70E07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{387B3E01-C9F9-4DA3-8E8D-3079F6E70E07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{387B3E01-C9F9-4DA3-8E8D-3079F6E70E07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DAD0EB12-68C6-46AC-80DF-F1D9D3AA7092} = {392D7080-1875-467E-8667-5797E0FD8960}
 		{1CB3908B-45BA-4134-9302-D9A3F6EB50E3} = {693C6248-37FF-4F02-BDCB-D8869BC9C249}
+		{22DBCFFD-1851-421D-A527-1B94464728F4} = {392D7080-1875-467E-8667-5797E0FD8960}
+		{F2592052-8A17-4207-9220-99C71C544093} = {392D7080-1875-467E-8667-5797E0FD8960}
+		{387B3E01-C9F9-4DA3-8E8D-3079F6E70E07} = {392D7080-1875-467E-8667-5797E0FD8960}
 	EndGlobalSection
 EndGlobal

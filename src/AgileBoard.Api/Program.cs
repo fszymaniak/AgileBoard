@@ -1,12 +1,12 @@
-using AgileBoard.Api.Repositories;
-using AgileBoard.Api.Services.Clock;
-using AgileBoard.Api.Services.EpicsService;
+using AgileBoard.Application;
+using AgileBoard.Core;
+using AgileBoard.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
-    .AddSingleton<IClock, Clock>()
-    .AddSingleton<IEpicsService, EpicsService>()
-    .AddSingleton<IEpicRepository, InMemoryEpicRepository>()
+    .AddCore()
+    .AddApplication()
+    .AddInfrastructure()
     .AddControllers();
 
 var app = builder.Build();
