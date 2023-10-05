@@ -1,38 +1,40 @@
 ﻿using AgileBoard.Api.Commands;
 using AgileBoard.Api.Entities;
+using AgileBoard.Api.Repositories;
 
 namespace AgileBoard.Api.Services.EpicsService;
 
 public sealed class EpicsService : IEpicsService
 {
-    private static readonly List<Epic> Epics = new();
+    private readonly IEpicRepository _epicRepository;
+    
+    public EpicsService(IEpicRepository epicRepository)
+    {
+        _epicRepository = epicRepository;
+    }
 
-    public Epic Get(Guid? id) => GetAll().SingleOrDefault(e => e.Id.Equals(id));
+    public Epic Get(Guid? id) => _epicRepository.Get(id);
 
-    public IEnumerable<Epic> GetAll() => Epics;
+    public IEnumerable<Epic> GetAll() => _epicRepository.GetAll();
     
     public Guid? Create(CreateEpic command)
     {
         var epic = new Epic(command.Id, command.Name, command.Status, command.Description, command.AcceptanceCriteria, command.CreatedDate);
-        Epics.Add(epic);
+        _epicRepository.Add(epic);
 
         return epic.Id;
     }
 
     public bool Update(UpdateEpic command)
     {
-        var existingEpic = GetAll().SingleOrDefault(e => e.Id.Equals(command.Id));
+        var existingEpic = _epicRepository.Get(command.Id);
         
         if (existingEpic is null)
         {
             return false;
         }
-
-        existingEpic.ChangeName(command.Name);
-        existingEpic.ChangeStatus(command.Status);
-        existingEpic.ChangeDescription(command.Description);
-        existingEpic.ChangeAcceptanceCriteria(command.AcceptanceCriteria);
-
+        
+        _epicRepository.Update(existingEpic, command);
         return true;
     }
 
@@ -45,7 +47,7 @@ public sealed class EpicsService : IEpicsService
             return false;
         }
 
-        Epics.Remove(existingEpic);
+        _epicRepository.Delete(existingEpic);
         return true;
     }
 }

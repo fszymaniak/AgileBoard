@@ -1,5 +1,6 @@
 ﻿using AgileBoard.Api.Commands;
 using AgileBoard.Api.Entities;
+using AgileBoard.Api.Repositories;
 using AgileBoard.Api.Services.EpicsService;
 using AgileBoard.Api.ValueObjects;
 using Shouldly;
@@ -84,13 +85,15 @@ public class EpicsServiceTests
     #region Arrange
 
     private readonly IEpicsService _epicsService;
+    private readonly IEpicRepository _epicRepository;
     private readonly CreateEpic _createCommand;
     private readonly UpdateEpic _updateCommand;
     private static readonly Guid EpicId = Guid.NewGuid();
 
     public EpicsServiceTests()
     {
-        _epicsService = new EpicsService();
+        _epicRepository = new InMemoryEpicRepository();
+        _epicsService = new EpicsService(_epicRepository);
         _createCommand = new CreateEpic(EpicId, "Name", "New", "Description", "AcceptanceCriteria", DateTimeOffset.Now);
         _updateCommand = new UpdateEpic(EpicId, "NameUpdated", "NewUpdated", "DescriptionUpdated", "AcceptanceCriteriaUpdated");
     }
