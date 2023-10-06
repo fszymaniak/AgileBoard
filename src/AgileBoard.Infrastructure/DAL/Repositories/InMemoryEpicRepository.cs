@@ -1,7 +1,7 @@
 ﻿using AgileBoard.Core.Entities;
 using AgileBoard.Core.Repositories;
 
-namespace AgileBoard.Infrastructure.Repositories;
+namespace AgileBoard.Infrastructure.DAL.Repositories;
 
 internal class InMemoryEpicRepository : IEpicRepository
 {

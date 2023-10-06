@@ -1,4 +1,6 @@
-﻿namespace AgileBoard.Application.Services.Clock;
+﻿using AgileBoard.Application.Services.Clock;
+
+namespace AgileBoard.Infrastructure.Clock;
 
 public class Clock : IClock
 {
