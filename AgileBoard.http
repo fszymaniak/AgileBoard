@@ -1,7 +1,7 @@
 @url = http://localhost:5032
 
-@epicId = b7f05c08-5178-45bc-ab0c-afc41d1d289e
-@epicId2 = ccdf6a07-8c47-47d8-be4c-4e07376c15aa
+@epicId = 1473c13c-8fb2-4343-857c-30d9229a6abb
+@epicId2 = b9bdff09-c583-4758-ace2-7dde3f59e446
 
 ###
 GET {{url}}/epics
