@@ -5,7 +5,7 @@ namespace AgileBoard.Core.Entities;
 
 public sealed class Epic
 {
-    public EpicId Id { get; }
+    public EpicId Id { get; private set; }
     
     public Name Name { get; private set; }
 
