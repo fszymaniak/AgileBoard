@@ -12,6 +12,7 @@ internal static class Extensions
         const string connectionString = "Host=localhost;Database=AgileBoard;Username=postgres;Password=";
         services.AddDbContext<AgileBoardDbContext>(x => x.UseNpgsql(connectionString));
         services.AddScoped<IEpicRepository, PostgresEpicRepository>();
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
         return services;
     }
