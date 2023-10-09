@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AgileBoard.Core.Repositories;
+using AgileBoard.Infrastructure.DAL.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AgileBoard.Infrastructure.DAL;
@@ -9,6 +11,7 @@ internal static class Extensions
     {
         const string connectionString = "Host=localhost;Database=AgileBoard;Username=postgres;Password=";
         services.AddDbContext<AgileBoardDbContext>(x => x.UseNpgsql(connectionString));
+        services.AddScoped<IEpicRepository, PostgresEpicRepository>();
 
         return services;
     }

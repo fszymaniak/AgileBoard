@@ -14,9 +14,8 @@ public static class Extensions
     {
         services
             .AddPostgres()
-            .AddSingleton<IClock, Clock.Clock>()
-            .AddSingleton<IEpicRepository, InMemoryEpicRepository>();
-
+            .AddSingleton<IClock, Clock.Clock>();
+            
         return services;
     }
 }
