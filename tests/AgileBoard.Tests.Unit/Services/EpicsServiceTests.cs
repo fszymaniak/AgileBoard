@@ -3,7 +3,7 @@ using AgileBoard.Application.Services.EpicsService;
 using AgileBoard.Core.Entities;
 using AgileBoard.Core.Repositories;
 using AgileBoard.Core.ValueObjects;
-using AgileBoard.Infrastructure.Repositories;
+using AgileBoard.Infrastructure.DAL.Repositories;
 using Shouldly;
 using Xunit;
 
