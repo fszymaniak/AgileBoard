@@ -34,7 +34,12 @@ public sealed class EpicsService : IEpicsService
             return false;
         }
         
-        _epicRepository.Update(existingEpic, command.Name, command.Status, command.Description, command.AcceptanceCriteria);
+        existingEpic.ChangeName(command.Name);
+        existingEpic.ChangeStatus(command.Status);
+        existingEpic.ChangeDescription(command.Description);
+        existingEpic.ChangeAcceptanceCriteria(command.AcceptanceCriteria);
+        
+        _epicRepository.Update(existingEpic);
         return true;
     }
 

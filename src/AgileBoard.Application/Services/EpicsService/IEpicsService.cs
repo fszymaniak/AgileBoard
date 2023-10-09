@@ -1,4 +1,5 @@
-﻿using AgileBoard.Application.Commands;
+﻿#nullable enable
+using AgileBoard.Application.Commands;
 using AgileBoard.Core.Entities;
 
 namespace AgileBoard.Application.Services.EpicsService;
