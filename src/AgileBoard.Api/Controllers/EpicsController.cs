@@ -20,12 +20,12 @@ public sealed class EpicsController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<Epic>> Get() => Ok(_service.GetAll());
+    public async Task<ActionResult<IEnumerable<Epic>>> Get() => Ok(await _service.GetAllAsync());
 
     [HttpGet("{id:guid}")]
-    public ActionResult<Epic> Get(Guid id)
+    public async Task<ActionResult<Epic>> Get(Guid id)
     {
-        var epic = _service.Get(id);
+        var epic = await _service.GetAsync(id);
         if (epic is null)
         {
             return NotFound();
@@ -35,9 +35,9 @@ public sealed class EpicsController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult Post(CreateEpic command)
+    public async Task<ActionResult> Post(CreateEpic command)
     {
-        var id = _service.Create(command with { Id = Guid.NewGuid(), Status = "New", CreatedDate = _clock.Current() });
+        var id = await _service.CreateAsync(command with { Id = Guid.NewGuid(), Status = "New", CreatedDate = _clock.Current() });
         
         if (id is null)
         {
@@ -48,9 +48,9 @@ public sealed class EpicsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public ActionResult<Epic> Put(Guid id, UpdateEpic command)
+    public async Task<ActionResult<Epic>> Put(Guid id, UpdateEpic command)
     {
-        if (_service.Update(command with { Id = id }))
+        if (await _service.UpdateAsync(command with { Id = id }))
         {
             return NoContent();
         }
@@ -59,9 +59,9 @@ public sealed class EpicsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    public ActionResult Delete(Guid id)
+    public async Task<ActionResult> Delete(Guid id)
     {
-        if (_service.Delete(new DeleteEpic(id)))
+        if (await _service.DeleteAsync(new DeleteEpic(id)))
         {
             return NoContent();
         }

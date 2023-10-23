@@ -6,13 +6,13 @@ namespace AgileBoard.Core.Repositories;
 
 public interface IEpicRepository
 {
-    public Epic Get(EpicId? id);
+    Task<Epic?> GetAsync(EpicId? id);
 
-    public IEnumerable<Epic> GetAll();
+    Task<IEnumerable<Epic>> GetAllAsync();
 
-    public void Add(Epic epic);
+    Task AddAsync(Epic epic);
 
-    public void Update(Epic existingEpic);
+    Task UpdateAsync(Epic existingEpic);
 
-    public void Delete(Epic epic);
+    Task DeleteAsync(Epic epic);
 }

@@ -1,6 +1,7 @@
 ﻿using AgileBoard.Application.Commands;
 using AgileBoard.Application.Services.EpicsService;
 using AgileBoard.Core.Entities;
+using AgileBoard.Core.Exceptions;
 using AgileBoard.Core.Repositories;
 using AgileBoard.Core.ValueObjects;
 using AgileBoard.Infrastructure.DAL.Repositories;
@@ -12,76 +13,92 @@ namespace AgileBoard.Unit.Tests.Services;
 public class EpicsServiceTests
 {
     [Fact]
-    public void given_epic_create_with_valid_parameters_should_pass()
+    public async Task given_epic_create_with_valid_parameters_should_pass()
     { 
        var testId = Guid.NewGuid(); 
-       var epicId = _epicsService.Create(_createCommand with { Id = testId  });
+       var epicId = await _epicsService.CreateAsync(_createCommand with { Id = testId  });
        
        epicId.ShouldNotBeNull();
        epicId.Value.ShouldBe(testId);
        
-       ValidateCreatedEpic(_epicsService.Get(epicId), _createCommand);
+       ValidateCreatedEpic(await _epicsService.GetAsync(epicId), _createCommand);
     }
     
     [Fact]
-    public void given_epic_update_with_valid_parameters_should_pass()
+    public async Task given_epic_update_with_valid_parameters_should_pass()
     {
-        var epicId = _epicsService.Create(_createCommand);
-        var updatedEpic = _epicsService.Get(epicId);
+        var epicId = await _epicsService.CreateAsync(_createCommand);
+        var updatedEpic = await _epicsService.GetAsync(epicId);
 
-        var isUpdated = _epicsService.Update(_updateCommand);
+        var isUpdated = await _epicsService.UpdateAsync(_updateCommand);
         isUpdated.ShouldBeTrue();
 
         ValidateUpdatedEpic(updatedEpic, _updateCommand);
     }
     
     [Fact]
-    public void given_epic_update_with_not_existing_epic_should_fail()
+    public async Task given_epic_update_with_not_existing_epic_should_throw_exception()
     {
-        var isUpdated = _epicsService.Update(_updateCommand with { Id = Guid.NewGuid()});
-       
-        isUpdated.ShouldBeFalse();
+        // ASSERT
+        Func<Task> testCode = () => _epicsService.UpdateAsync(_updateCommand with { Id = Guid.NewGuid() });
+        
+        // ACT
+        var exception = await Record.ExceptionAsync(testCode);
+            
+        // ASSERT
+        exception.ShouldNotBeNull();
+        exception.ShouldBeOfType<EpicDoesNotExist>();
+        exception.Message.ShouldBe("Epic does not exist.");
     }
     
     [Fact]
-    public void given_epic_delete_with_existing_id_should_pass()
+    public async Task given_epic_delete_with_existing_id_should_pass()
     {
-        var epicId = _epicsService.Create(_createCommand with { Id = Guid.NewGuid()});
+        var epicId = await _epicsService.CreateAsync(_createCommand with { Id = Guid.NewGuid()});
 
-        var isDeleted = _epicsService.Delete(new DeleteEpic(epicId));
+        var isDeleted = await _epicsService.DeleteAsync(new DeleteEpic(epicId));
         isDeleted.ShouldBeTrue();
     }
     
     [Fact]
-    public void given_epic_delete_with_not_existing_id_should_fail()
+    public async Task given_epic_delete_with_not_existing_id_should_throw_exception()
     {
-        var isDeleted = _epicsService.Delete(new DeleteEpic(Guid.NewGuid()));
-        isDeleted.ShouldBeFalse();
+        // ASSERT
+        Func<Task> testCode = () => _epicsService.DeleteAsync(new DeleteEpic(Guid.NewGuid()));
+        
+        // ACT
+        var exception = await Record.ExceptionAsync(testCode);
+            
+        // ASSERT
+        exception.ShouldNotBeNull();
+        exception.ShouldBeOfType<EpicDoesNotExist>();
+        exception.Message.ShouldBe("Epic does not exist.");
     }
     
     [Fact]
-    public void given_epic_get_with_existing_id_should_pass()
+    public async Task given_epic_get_with_existing_id_should_pass()
     {
-        var epicId = _epicsService.Create(_createCommand with { Id = Guid.NewGuid()});
+        var epicId = await _epicsService.CreateAsync(_createCommand with { Id = Guid.NewGuid()});
 
-        var epic = _epicsService.Get(epicId);
+        var epic = await _epicsService.GetAsync(epicId);
         epic.ShouldNotBeNull();
         ValidateCreatedEpic(epic, _createCommand);
     }
     
     [Fact]
-    public void given_epic_get_all_with_existing_ids_should_pass()
+    public async Task given_epic_get_all_with_existing_ids_should_pass()
     {
-        Cleanup();
+        await Cleanup();
         
-        var epicId1 = _epicsService.Create(_createCommand with { Id = Guid.NewGuid()});
-        var epicId2 = _epicsService.Create(_createCommand with { Id = Guid.NewGuid()});
+        var epicId1 = await _epicsService.CreateAsync(_createCommand with { Id = Guid.NewGuid()});
+        var epicId2 = await _epicsService.CreateAsync(_createCommand with { Id = Guid.NewGuid()});
         
-        var allEpics = _epicsService.GetAll();
-        allEpics.ShouldNotBeNull();
-        allEpics.Count().ShouldBe(2);
-        allEpics.First().Id.ShouldBe<EpicId>(epicId1);
-        allEpics.Last().Id.ShouldBe<EpicId>(epicId2);
+        var allEpics = await _epicsService.GetAllAsync();
+        allEpics.ShouldSatisfyAllConditions(
+                () => allEpics.ShouldNotBeNull(),
+                () => allEpics.Count().ShouldBe(2),
+                () => allEpics.First().Id.ShouldBe<EpicId>(epicId1),
+                () => allEpics.Last().Id.ShouldBe<EpicId>(epicId2));
     }
 
     #region Arrange
@@ -116,12 +133,12 @@ public class EpicsServiceTests
         actualEpic.CreatedDate.ShouldBe<Date>(expectedEpic.CreatedDate);
     }
 
-    private void Cleanup()
+    private async Task Cleanup()
     {
-        var allEpics = _epicsService.GetAll().ToList();
+        var allEpics = await _epicsService.GetAllAsync();
         foreach (var epic in allEpics)
         {
-            _epicsService.Delete(new DeleteEpic(epic.Id));
+            await _epicsService.DeleteAsync(new DeleteEpic(epic.Id));
         }
     }
 

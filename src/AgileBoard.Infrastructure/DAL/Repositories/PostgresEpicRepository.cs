@@ -2,6 +2,7 @@
 using AgileBoard.Core.Exceptions;
 using AgileBoard.Core.Repositories;
 using AgileBoard.Core.ValueObjects;
+using Microsoft.EntityFrameworkCore;
 
 namespace AgileBoard.Infrastructure.DAL.Repositories;
 
@@ -13,25 +14,25 @@ internal sealed class PostgresEpicRepository : IEpicRepository
         _dbContext = dbContext;
     }
 
-    public Epic Get(EpicId? id) => _dbContext.Epics.SingleOrDefault(x => x.Id == id) ?? throw new EpicDoesNotExist();
+    public Task<Epic?> GetAsync(EpicId? id) => _dbContext.Epics.SingleOrDefaultAsync(x => x.Id == id) ?? throw new EpicDoesNotExist();
 
-    public IEnumerable<Epic> GetAll() => _dbContext.Epics.ToList();
+    public async Task<IEnumerable<Epic>> GetAllAsync() => await _dbContext.Epics.ToListAsync();
 
-    public void Add(Epic epic)
+    public async Task AddAsync(Epic epic)
     {
-        _dbContext.Epics.Add(epic);
-        _dbContext.SaveChanges();
+        await _dbContext.Epics.AddAsync(epic);
+        await _dbContext.SaveChangesAsync();
     }
 
-    public void Update(Epic epic)
+    public async Task UpdateAsync(Epic epic)
     {
         _dbContext.Update(epic);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
     }
 
-    public void Delete(Epic epic)
+    public async Task DeleteAsync(Epic epic)
     {
         _dbContext.Epics.Remove(epic);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
     }
 }

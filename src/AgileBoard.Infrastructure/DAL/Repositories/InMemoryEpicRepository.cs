@@ -9,20 +9,28 @@ internal class InMemoryEpicRepository : IEpicRepository
 {
     private static readonly List<Epic> Epics = new();
     
-    public Epic Get(EpicId? id) => GetAll().SingleOrDefault(e => e.Id.Equals(id)) ?? throw new EpicDoesNotExist();
+    public Task<Epic?> GetAsync(EpicId? id) => Task.FromResult(Epics.SingleOrDefault(e => e.Id.Equals(id)) ?? throw new EpicDoesNotExist());
     
-    public IEnumerable<Epic> GetAll() => Epics;
+    public Task<IEnumerable<Epic>> GetAllAsync() => Task.FromResult(Epics.AsEnumerable());
 
-    public void Add(Epic epic) => Epics.Add(epic);
-
-    public void Update(Epic existingEpic)
+    public Task AddAsync(Epic epic)
     {
-        var epicToUpdate = Get(existingEpic.Id);
+        Epics.Add(epic);
+        return Task.CompletedTask;
+    }
+
+    public async Task UpdateAsync(Epic existingEpic)
+    {
+        var epicToUpdate = await GetAsync(existingEpic.Id);
         epicToUpdate.ChangeName(existingEpic.Name);
         epicToUpdate.ChangeStatus(existingEpic.Status);
         epicToUpdate.ChangeDescription(existingEpic.Description);
         epicToUpdate.ChangeAcceptanceCriteria(existingEpic.AcceptanceCriteria);
     }
 
-    public void Delete(Epic epic) => Epics.Remove(epic);
+    public Task DeleteAsync(Epic epic)
+    {
+        Epics.Remove(epic);
+        return Task.CompletedTask;
+    }
 }

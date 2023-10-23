@@ -13,21 +13,21 @@ public sealed class EpicsService : IEpicsService
         _epicRepository = epicRepository;
     }
 
-    public Epic Get(Guid? id) => _epicRepository.Get(id);
+    public async Task<Epic> GetAsync(Guid? id) => await _epicRepository.GetAsync(id);
 
-    public IEnumerable<Epic> GetAll() => _epicRepository.GetAll();
+    public async Task<IEnumerable<Epic>> GetAllAsync() => await _epicRepository.GetAllAsync();
     
-    public Guid? Create(CreateEpic command)
+    public async Task<Guid?> CreateAsync(CreateEpic command)
     {
         var epic = new Epic(command.Id, command.Name, command.Status, command.Description, command.AcceptanceCriteria, command.CreatedDate);
-        _epicRepository.Add(epic);
+        await _epicRepository.AddAsync(epic);
 
         return epic.Id;
     }
 
-    public bool Update(UpdateEpic command)
+    public async Task<bool> UpdateAsync(UpdateEpic command)
     {
-        var existingEpic = _epicRepository.Get(command.Id);
+        var existingEpic = await _epicRepository.GetAsync(command.Id);
         
         if (existingEpic is null)
         {
@@ -39,20 +39,20 @@ public sealed class EpicsService : IEpicsService
         existingEpic.ChangeDescription(command.Description);
         existingEpic.ChangeAcceptanceCriteria(command.AcceptanceCriteria);
         
-        _epicRepository.Update(existingEpic);
+        await _epicRepository.UpdateAsync(existingEpic);
         return true;
     }
 
-    public bool Delete(DeleteEpic command)
+    public async Task<bool> DeleteAsync(DeleteEpic command)
     {
-        var existingEpic = Get(command.EpicId);
+        var existingEpic = await GetAsync(command.EpicId);
         
         if (existingEpic is null)
         {
             return false;
         }
 
-        _epicRepository.Delete(existingEpic);
+        await _epicRepository.DeleteAsync(existingEpic);
         return true;
     }
 }

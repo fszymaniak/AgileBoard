@@ -6,13 +6,13 @@ namespace AgileBoard.Application.Services.EpicsService;
 
 public interface IEpicsService
 {
-    public Epic Get(Guid? id);
+    Task<Epic> GetAsync(Guid? id);
     
-    public IEnumerable<Epic> GetAll();
+    Task<IEnumerable<Epic>> GetAllAsync();
 
-    public Guid? Create(CreateEpic command);
+    Task<Guid?> CreateAsync(CreateEpic command);
 
-    public bool Update(UpdateEpic command);
+    Task<bool> UpdateAsync(UpdateEpic command);
 
-    public bool Delete(DeleteEpic command);
+    Task<bool> DeleteAsync(DeleteEpic command);
 }
