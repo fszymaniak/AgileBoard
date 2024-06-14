@@ -1,16 +1,21 @@
 ﻿using AgileBoard.Application.Commands;
+using AgileBoard.Core.DomainServices;
 using AgileBoard.Core.Entities;
+using AgileBoard.Core.Policies;
 using AgileBoard.Core.Repositories;
+using AgileBoard.Core.ValueObjects;
 
 namespace AgileBoard.Application.Services.EpicsService;
 
 public sealed class EpicsService : IEpicsService
 {
     private readonly IEpicRepository _epicRepository;
+    private readonly IEpicCreationService _epicCreationService;
     
-    public EpicsService(IEpicRepository epicRepository)
+    public EpicsService(IEpicRepository epicRepository, IEpicCreationService epicCreationService)
     {
         _epicRepository = epicRepository;
+        _epicCreationService = epicCreationService;
     }
 
     public async Task<Epic> GetAsync(Guid? id) => await _epicRepository.GetAsync(id);
@@ -20,7 +25,7 @@ public sealed class EpicsService : IEpicsService
     public async Task<Guid?> CreateAsync(CreateEpic command)
     {
         var epic = new Epic(command.Id, command.Name, command.Status, command.Description, command.AcceptanceCriteria, command.CreatedDate);
-        await _epicRepository.AddAsync(epic);
+        await _epicCreationService.CreateEpicForRestrictedJobTitles(_epicRepository, epic, JobTitle.ProductOwner);
 
         return epic.Id;
     }
