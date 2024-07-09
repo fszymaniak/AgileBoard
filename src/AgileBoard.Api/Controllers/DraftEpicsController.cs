@@ -1,31 +1,31 @@
 ﻿using AgileBoard.Application.Commands;
 using AgileBoard.Application.Services.Clock;
-using AgileBoard.Application.Services.EpicsService;
+using AgileBoard.Application.Services.DraftEpicsService;
 using AgileBoard.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgileBoard.Api.Controllers;
 
 [ApiController]
-[Route("epics")]
-public sealed class EpicsController : ControllerBase
+[Route("draftEpics")]
+public sealed class DraftEpicsController : ControllerBase
 {
-    private readonly IEpicsService _service;
+    private readonly IDraftEpicsService _service;
     private readonly IClock _clock;
 
-    public EpicsController(IEpicsService service, IClock clock)
+    public DraftEpicsController(IDraftEpicsService service, IClock clock)
     {
         _service = service;
         _clock = clock;
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Epic>>> Get() => Ok(await _service.GetAllAsync());
+    public async Task<ActionResult<IEnumerable<Epic>>> Get() => Ok(await _service.GetAllDraftEpicAsync());
 
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<Epic>> Get(Guid id)
     {
-        var epic = await _service.GetAsync(id);
+        var epic = await _service.GetDraftEpicAsync(id);
         if (epic is null)
         {
             return NotFound();
@@ -33,11 +33,11 @@ public sealed class EpicsController : ControllerBase
 
         return Ok(epic);
     }
-
+    
     [HttpPost]
-    public async Task<ActionResult> Post(CreateEpic command)
+    public async Task<ActionResult> Post(CreateDraftEpic command)
     {
-        var id = await _service.CreateAsync(command with { Id = Guid.NewGuid(), Status = "New", CreatedDate = _clock.Current() });
+        var id = await _service.CreateDraftEpicAsync(command with { Id = Guid.NewGuid(), CreatedDate = _clock.Current() });
         
         if (id is null)
         {
@@ -48,9 +48,9 @@ public sealed class EpicsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<Epic>> Put(Guid id, UpdateEpic command)
+    public async Task<ActionResult<Epic>> Put(Guid id, UpdateDraftEpic command)
     {
-        if (await _service.UpdateAsync(command with { Id = id }))
+        if (await _service.UpdateDraftEpicAsync(command with { Id = id }))
         {
             return NoContent();
         }
@@ -61,7 +61,7 @@ public sealed class EpicsController : ControllerBase
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult> Delete(Guid id)
     {
-        if (await _service.DeleteAsync(new DeleteEpic(id)))
+        if (await _service.DeleteDraftEpicAsync(new DeleteEpic(id)))
         {
             return NoContent();
         }

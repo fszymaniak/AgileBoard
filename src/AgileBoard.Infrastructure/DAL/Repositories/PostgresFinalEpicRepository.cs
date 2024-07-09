@@ -6,31 +6,31 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AgileBoard.Infrastructure.DAL.Repositories;
 
-internal sealed class PostgresEpicRepository : IEpicRepository
+internal sealed class PostgresFinalEpicRepository : IFinalEpicRepository
 {
     private readonly AgileBoardDbContext _dbContext;
-    public PostgresEpicRepository(AgileBoardDbContext dbContext)
+    public PostgresFinalEpicRepository(AgileBoardDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
-    public Task<Epic?> GetAsync(EpicId? id) => _dbContext.Epics.SingleOrDefaultAsync(x => x.Id == id) ?? throw new EpicDoesNotExist();
+    public Task<FinalEpic?> GetFinalEpicAsync(EpicId? id) => _dbContext.Epics.OfType<FinalEpic>().SingleOrDefaultAsync(x => x.Id == id) ?? throw new EpicDoesNotExist();
+    
+    public async Task<IEnumerable<FinalEpic>> GetAllFinalEpicAsync() => await _dbContext.Epics.OfType<FinalEpic>().ToListAsync();
 
-    public async Task<IEnumerable<Epic>> GetAllAsync() => await _dbContext.Epics.ToListAsync();
-
-    public async Task AddAsync(Epic epic)
+    public async Task AddFinalEpicAsync(FinalEpic epic)
     {
         await _dbContext.Epics.AddAsync(epic);
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(Epic epic)
+    public async Task UpdateFinalEpicAsync(FinalEpic epic)
     {
         _dbContext.Update(epic);
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(Epic epic)
+    public async Task DeleteFinalEpicAsync(FinalEpic epic)
     {
         _dbContext.Epics.Remove(epic);
         await _dbContext.SaveChangesAsync();

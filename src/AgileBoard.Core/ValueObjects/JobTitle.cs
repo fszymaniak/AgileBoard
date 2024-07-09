@@ -8,6 +8,7 @@ public sealed record JobTitle
 
     public const string DevelopmentTeamMember = nameof(DevelopmentTeamMember);
     public const string ScrumMaster = nameof(ScrumMaster);
+    public const string BusinessAnalyst = nameof(BusinessAnalyst);
     public const string ProductOwner = nameof(ProductOwner);
 
     private JobTitle(string value)

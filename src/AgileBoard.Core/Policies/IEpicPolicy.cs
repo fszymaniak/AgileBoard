@@ -5,5 +5,12 @@ namespace AgileBoard.Core.Policies;
 public interface IEpicPolicy
 {
     bool CanBeApplied(JobTitle jobTitle);
-    bool CanCreate();
+    
+    bool CanCreateFinalEpic();
+    
+    bool CanCreateDraftEpic();
+    
+    bool CanUpdateFinalEpic();
+    
+    bool CanUpdateDraftEpic();
 }

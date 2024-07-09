@@ -14,13 +14,12 @@ internal sealed class EpicConfiguration : IEntityTypeConfiguration<Epic>
             .HasConversion(x => x.Value, x => new EpicId(x));
         builder.Property(x => x.Name)
             .HasConversion(x => x.Value, x => new Name(x));
-        builder.Property(x => x.Status)
-            .HasConversion(x => x.Value, x => new Status(x));
-        builder.Property(x => x.Description)
-            .HasConversion(x => x.Value, x => new Description(x));
-        builder.Property(x => x.AcceptanceCriteria)
-            .HasConversion(x => x.Value, x => new AcceptanceCriteria(x));
         builder.Property(x => x.CreatedDate)
             .HasConversion(x => x.Value, x => new Date(x));
+
+        builder
+            .HasDiscriminator<string>("Type")
+            .HasValue<DraftEpic>(nameof(DraftEpic))
+            .HasValue<FinalEpic>(nameof(FinalEpic));
     }
 }
