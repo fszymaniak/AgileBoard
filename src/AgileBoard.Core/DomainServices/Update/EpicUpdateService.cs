@@ -15,7 +15,7 @@ public class EpicUpdateService : IEpicUpdateService
         _policies = policies;
     }
 
-    public async Task UpdateFinalEpicForRestrictedJobTitles(IFinalEpicRepository epicRepository, FinalEpic finalEpic, string name, string status, string description, string acceptanceCriteria, JobTitle jobTitle)
+    public async Task UpdateFinalEpicForRestrictedJobTitles(IEpicRepository epicRepository, FinalEpic finalEpic, string name, string status, string description, string acceptanceCriteria, JobTitle jobTitle)
     {
         var policy = _policies.SingleOrDefault(x => x.CanBeApplied(jobTitle));
 
@@ -34,10 +34,10 @@ public class EpicUpdateService : IEpicUpdateService
         finalEpic.ChangeDescription(description);
         finalEpic.ChangeAcceptanceCriteria(acceptanceCriteria);
         
-        await epicRepository.UpdateFinalEpicAsync(finalEpic);
+        await epicRepository.UpdateEpicAsync(finalEpic);
     }
     
-    public async Task UpdateDraftEpicForRestrictedJobTitles(IDraftEpicRepository epicRepository, DraftEpic draftEpic, string name, JobTitle jobTitle)
+    public async Task UpdateDraftEpicForRestrictedJobTitles(IEpicRepository epicRepository, DraftEpic draftEpic, string name, JobTitle jobTitle)
     {
         var policy = _policies.SingleOrDefault(x => x.CanBeApplied(jobTitle));
 
@@ -53,6 +53,6 @@ public class EpicUpdateService : IEpicUpdateService
         
         draftEpic.ChangeName(name);
         
-        await epicRepository.UpdateDraftEpicAsync(draftEpic);
+        await epicRepository.UpdateEpicAsync(draftEpic);
     }
 }

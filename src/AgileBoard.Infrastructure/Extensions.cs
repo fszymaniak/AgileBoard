@@ -3,6 +3,7 @@ using AgileBoard.Application.Services.Clock;
 using AgileBoard.Infrastructure.DAL;
 using AgileBoard.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,6 +19,8 @@ public static class Extensions
         services
             .AddPostgres(configuration)
             .AddSingleton<IClock, Clock.Clock>();
+        
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); 
             
         return services;
     }

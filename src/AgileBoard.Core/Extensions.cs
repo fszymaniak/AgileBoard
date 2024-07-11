@@ -1,5 +1,6 @@
 ﻿using AgileBoard.Core.DomainServices;
 using AgileBoard.Core.DomainServices.Creation;
+using AgileBoard.Core.DomainServices.Update;
 using AgileBoard.Core.Policies;
 using AgileBoard.Core.Repositories;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,7 @@ public static class Extensions
         services.AddSingleton<IEpicPolicy, ProductOwnerFinalEpicCreationPolicy>();
         services.AddSingleton<IEpicPolicy, ScrumMasterFinalEpicCreationPolicy>();
         services.AddSingleton<IEpicCreationService, EpicCreationService>();
+        services.AddSingleton<IEpicUpdateService, EpicUpdateService>();
         return services;
     }
 }

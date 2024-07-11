@@ -17,7 +17,7 @@ internal static class Extensions
         var options = configuration.GetOptions<PostgresOptions>(SectionName);
         
         services.AddDbContext<AgileBoardDbContext>(x => x.UseNpgsql(options.ConnectionString));
-        services.AddScoped<IFinalEpicRepository, PostgresFinalEpicRepository>();
+        services.AddScoped<IEpicRepository, PostgresEpicRepository>();
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
         return services;

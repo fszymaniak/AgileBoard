@@ -6,9 +6,9 @@ namespace AgileBoard.Core.DomainServices.Update;
 
 public interface IEpicUpdateService
 {
-    Task UpdateFinalEpicForRestrictedJobTitles(IFinalEpicRepository epicRepository, FinalEpic finalEpic,
+    Task UpdateFinalEpicForRestrictedJobTitles(IEpicRepository epicRepository, FinalEpic finalEpic,
         string name, string status, string description, string acceptanceCriteria, JobTitle jobTitle);
     
-    Task UpdateDraftEpicForRestrictedJobTitles(IDraftEpicRepository epicRepository, DraftEpic finalEpic,
+    Task UpdateDraftEpicForRestrictedJobTitles(IEpicRepository epicRepository, DraftEpic finalEpic,
         string name, JobTitle jobTitle);
 }

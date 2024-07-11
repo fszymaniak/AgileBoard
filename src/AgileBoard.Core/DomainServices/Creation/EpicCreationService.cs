@@ -15,7 +15,7 @@ public class EpicCreationService : IEpicCreationService
         _policies = policies;
     }
 
-    public async Task CreateFinalEpicForRestrictedJobTitles(IFinalEpicRepository epicRepository, FinalEpic epic, JobTitle jobTitle)
+    public async Task CreateFinalEpicForRestrictedJobTitles(IEpicRepository epicRepository, FinalEpic epic, JobTitle jobTitle)
     {
         var policy = _policies.SingleOrDefault(x => x.CanBeApplied(jobTitle));
 
@@ -29,10 +29,10 @@ public class EpicCreationService : IEpicCreationService
             throw new CannotCreateFinalEpicException(jobTitle);
         }
         
-        await epicRepository.AddFinalEpicAsync(epic);
+        await epicRepository.AddEpicAsync(epic);
     }
     
-    public async Task CreateDraftEpicForRestrictedJobTitles(IDraftEpicRepository epicRepository, DraftEpic epic, JobTitle jobTitle)
+    public async Task CreateDraftEpicForRestrictedJobTitles(IEpicRepository epicRepository, DraftEpic epic, JobTitle jobTitle)
     {
         var policy = _policies.SingleOrDefault(x => x.CanBeApplied(jobTitle));
 
@@ -46,6 +46,6 @@ public class EpicCreationService : IEpicCreationService
             throw new CannotCreateFinalEpicException(jobTitle);
         }
         
-        await epicRepository.AddDraftEpicAsync(epic);
+        await epicRepository.AddEpicAsync(epic);
     }
 }
