@@ -11,9 +11,10 @@ public static class Extensions
 {
     public static IServiceCollection AddCore(this IServiceCollection services)
     {
-        services.AddSingleton<IEpicPolicy, DevelopmentTeamMemberFinalEpicCreationPolicy>();
-        services.AddSingleton<IEpicPolicy, ProductOwnerFinalEpicCreationPolicy>();
-        services.AddSingleton<IEpicPolicy, ScrumMasterFinalEpicCreationPolicy>();
+        services.AddSingleton<IEpicPolicy, DevelopmentTeamMemberEpicCreationPolicy>();
+        services.AddSingleton<IEpicPolicy, ProductOwnerEpicCreationPolicy>();
+        services.AddSingleton<IEpicPolicy, ScrumMasterEpicCreationPolicy>();
+        services.AddSingleton<IEpicPolicy, BusinessAnalystEpicCreationPolicy>();
         services.AddSingleton<IEpicCreationService, EpicCreationService>();
         services.AddSingleton<IEpicUpdateService, EpicUpdateService>();
         return services;

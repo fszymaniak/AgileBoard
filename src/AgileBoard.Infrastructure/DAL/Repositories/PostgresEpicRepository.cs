@@ -16,7 +16,7 @@ internal sealed class PostgresEpicRepository : IEpicRepository
 
     public Task<T?> GetEpicAsync<T>(EpicId? id) where T : Epic => Task.FromResult(_dbContext.Epics.OfType<T>().SingleOrDefault(e => e.Id.Equals(id)) ?? throw new EpicDoesNotExist())!;
     
-    public async Task<IEnumerable<Epic>> GetAllEpicAsync() => await _dbContext.Epics.OfType<FinalEpic>().ToListAsync();
+    public async Task<IEnumerable<Epic>> GetAllEpicAsync() => await _dbContext.Epics.OfType<Epic>().ToListAsync();
 
     public async Task AddEpicAsync(Epic epic)
     {

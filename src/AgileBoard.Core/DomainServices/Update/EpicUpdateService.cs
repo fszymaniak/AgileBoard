@@ -26,7 +26,7 @@ public class EpicUpdateService : IEpicUpdateService
 
         if (!policy.CanUpdateFinalEpic())
         {
-            throw new CannotCreateFinalEpicException(jobTitle);
+            throw new CannotUpdateFinalEpicException(jobTitle);
         }
         
         finalEpic.ChangeName(name);
@@ -48,7 +48,7 @@ public class EpicUpdateService : IEpicUpdateService
 
         if (!policy.CanUpdateDraftEpic())
         {
-            throw new CannotCreateFinalEpicException(jobTitle);
+            throw new CannotUpdateDraftEpicException(jobTitle);
         }
         
         draftEpic.ChangeName(name);

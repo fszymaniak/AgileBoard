@@ -14,9 +14,9 @@ public interface IEpicsService
     
     Task<Guid?> CreateDraftEpicAsync(CreateDraftEpic command);
     
-    Task<bool> UpdateDraftEpicAsync(UpdateDraftEpic command);
+    Task<bool> UpdateFinalEpicAsync(UpdateFinalEpic command);
     
-    Task<bool> UpdateDraftEpicAsync(UpdateFinalEpic command);
+    Task<bool> UpdateDraftEpicAsync(UpdateDraftEpic command);
     
     Task<bool> DeleteEpicAsync(DeleteEpic command);
 }

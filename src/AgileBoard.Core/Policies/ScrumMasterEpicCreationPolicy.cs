@@ -2,9 +2,9 @@
 
 namespace AgileBoard.Core.Policies;
 
-internal sealed class DevelopmentTeamMemberFinalEpicCreationPolicy : IEpicPolicy
+internal sealed class ScrumMasterEpicCreationPolicy : IEpicPolicy
 {
-    public bool CanBeApplied(JobTitle jobTitle) => jobTitle == JobTitle.DevelopmentTeamMember;
+    public bool CanBeApplied(JobTitle jobTitle) => jobTitle == JobTitle.ScrumMaster;
 
     public bool CanCreateFinalEpic() => false;
     

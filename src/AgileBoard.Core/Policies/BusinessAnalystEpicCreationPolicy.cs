@@ -2,7 +2,7 @@
 
 namespace AgileBoard.Core.Policies;
 
-public class BusinessAnalystFinalEpicCreationPolicy : IEpicPolicy
+public class BusinessAnalystEpicCreationPolicy : IEpicPolicy
 {
     public bool CanBeApplied(JobTitle jobTitle) => jobTitle == JobTitle.BusinessAnalyst;
 

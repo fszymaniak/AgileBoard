@@ -27,7 +27,7 @@ public sealed class EpicsService : IEpicsService
     public async Task<Guid?> CreateFinalEpicAsync(CreateFinalEpic command)
     {
         var epic = new FinalEpic(command.Id, command.Name, command.Status, command.Description, command.AcceptanceCriteria, command.CreatedDate);
-        await _epicCreationService.CreateFinalEpicForRestrictedJobTitles(_epicRepository, epic, JobTitle.ProductOwner);
+        await _epicCreationService.CreateFinalEpicForRestrictedJobTitles(_epicRepository, epic, JobTitle.BusinessAnalyst);
 
         return epic.Id;
     }
@@ -35,12 +35,12 @@ public sealed class EpicsService : IEpicsService
     public async Task<Guid?> CreateDraftEpicAsync(CreateDraftEpic command)
     {
         var epic = new DraftEpic(command.Id, command.Name, command.CreatedDate);
-        await _epicCreationService.CreateDraftEpicForRestrictedJobTitles(_epicRepository, epic, JobTitle.ProductOwner);
+        await _epicCreationService.CreateDraftEpicForRestrictedJobTitles(_epicRepository, epic, JobTitle.BusinessAnalyst);
 
         return epic.Id;
     }
     
-    public async Task<bool> UpdateDraftEpicAsync(UpdateFinalEpic command)
+    public async Task<bool> UpdateFinalEpicAsync(UpdateFinalEpic command)
     {
         var existingEpic = await _epicRepository.GetEpicAsync<FinalEpic>(command.Id);
         

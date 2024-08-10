@@ -1,7 +1,8 @@
 @url = http://localhost:5032
 
-@epicId = 1473c13c-8fb2-4343-857c-30d9229a6abb
-@epicId2 = b9bdff09-c583-4758-ace2-7dde3f59e446
+@epicId = c8d458f6-9e53-4bb4-b384-33ea60f18f44
+@epicId2 = 53a81d96-7a1a-40cf-8b3c-ba9b9efae349
+@epicId3 = 0766ca4f-ef76-4a7c-9cb1-d94660efa67e
 
 ###
 GET {{url}}/epics
@@ -10,7 +11,7 @@ GET {{url}}/epics
 GET {{url}}/epics/{{epicId}}
 
 ###
-POST {{url}}/epics
+POST {{url}}/epics/final
 Content-Type: application/json
 
 {
@@ -20,7 +21,15 @@ Content-Type: application/json
 }
 
 ###
-PUT {{url}}/epics/{{epicId}}
+POST {{url}}/epics/draft
+Content-Type: application/json
+
+{
+    "name": "Test_Draft"
+}
+
+###
+PUT {{url}}/epics/final/{{epicId2}}
 Content-Type: application/json
 
 {
@@ -31,4 +40,12 @@ Content-Type: application/json
 }
 
 ###
-DELETE {{url}}/epics/{{epicId}}
+PUT {{url}}/epics/draft/{{epicId}}
+Content-Type: application/json
+
+{
+    "name": "Draft 1 Updated"
+}
+
+###
+DELETE {{url}}/epics/{{epicId3}}

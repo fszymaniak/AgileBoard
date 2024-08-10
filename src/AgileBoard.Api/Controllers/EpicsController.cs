@@ -50,7 +50,7 @@ public sealed class EpicsController : ControllerBase
     [HttpPost("draft")]
     public async Task<ActionResult> Post(CreateDraftEpic command)
     {
-        var id = await _service.CreateDraftEpicAsync(command with { Id = Guid.NewGuid(), Name = "Draft Epic", CreatedDate = _clock.Current() });
+        var id = await _service.CreateDraftEpicAsync(command with { Id = Guid.NewGuid(), Name = command.Name, CreatedDate = _clock.Current() });
         
         if (id is null)
         {
@@ -62,9 +62,9 @@ public sealed class EpicsController : ControllerBase
     
 
     [HttpPut("final/{id:guid}")]
-    public async Task<ActionResult<Epic>> Put(Guid id, UpdateFinalEpic command)
+    public async Task<ActionResult<FinalEpic>> Put(Guid id, UpdateFinalEpic command)
     {
-        if (await _service.UpdateDraftEpicAsync(command with { Id = id }))
+        if (await _service.UpdateFinalEpicAsync(command with { Id = id }))
         {
             return NoContent();
         }
@@ -73,7 +73,7 @@ public sealed class EpicsController : ControllerBase
     }
     
     [HttpPut("draft/{id:guid}")]
-    public async Task<ActionResult<Epic>> Put(Guid id, UpdateDraftEpic command)
+    public async Task<ActionResult<DraftEpic>> Put(Guid id, UpdateDraftEpic command)
     {
         if (await _service.UpdateDraftEpicAsync(command with { Id = id }))
         {

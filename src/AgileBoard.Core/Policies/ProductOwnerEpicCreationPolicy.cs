@@ -2,7 +2,7 @@
 
 namespace AgileBoard.Core.Policies;
 
-internal sealed class ProductOwnerFinalEpicCreationPolicy : IEpicPolicy
+internal sealed class ProductOwnerEpicCreationPolicy : IEpicPolicy
 {
     public bool CanBeApplied(JobTitle jobTitle) => jobTitle == JobTitle.ProductOwner;
 
