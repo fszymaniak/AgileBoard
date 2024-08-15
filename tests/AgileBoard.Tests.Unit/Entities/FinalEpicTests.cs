@@ -11,12 +11,10 @@ public class FinalEpicTests
     #region Assert
 
     private readonly FinalEpic _finalEpic;
-    private readonly DraftEpic _draftEpic;
 
     public FinalEpicTests()
     {
         _finalEpic = new FinalEpic(Guid.NewGuid(), "name", "status", "description", "acceptanceCriteria", DateTimeOffset.Now);
-        _draftEpic = new DraftEpic(Guid.NewGuid(), "name", DateTimeOffset.Now);
     }
 
     #endregion

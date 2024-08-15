@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata;
-
-namespace AgileBoard.Core.ValueObjects;
+﻿namespace AgileBoard.Core.ValueObjects;
 
 public sealed record JobTitle
 {
