@@ -1,5 +1,6 @@
 ﻿using AgileBoard.Application.Commands;
 using AgileBoard.Application.Services.EpicsService;
+using AgileBoard.Application.Services.UserContext;
 using AgileBoard.Core.DomainServices.Creation;
 using AgileBoard.Core.DomainServices.Update;
 using AgileBoard.Core.Entities;
@@ -59,7 +60,7 @@ public class EpicsServiceTests
         var isUpdated = await _epicsService.UpdateDraftEpicAsync(_updateDraftEpicCommand);
         isUpdated.ShouldBeTrue();
 
-        ValidateUpdatedDraftEpic(updatedEpic, _updateFinalEpicCommand);
+        ValidateUpdatedDraftEpic(updatedEpic, _updateDraftEpicCommand);
     }
     
     [Fact]
@@ -111,7 +112,7 @@ public class EpicsServiceTests
         ValidateCreatedFinalEpic(epic, _createFinalEpicCommand);
     }
     
-    [Fact (Skip = "Work in progress. Failing on Collection was modified; enumeration operation may not execute.")]
+    [Fact]
     public async Task given_epic_get_all_with_existing_ids_should_pass()
     {
         await Cleanup();
@@ -139,12 +140,19 @@ public class EpicsServiceTests
     public EpicsServiceTests()
     {
         IEpicRepository epicRepository = new InMemoryEpicRepository();
-        var businessAnalystEpicCreationPolicy = new Mock<BusinessAnalystEpicCreationPolicy>().Object;
-        var policies = new List<IEpicPolicy>();
-        policies.Add(businessAnalystEpicCreationPolicy);
+
+        // Use actual policy instance instead of mock since it's not virtual
+        var businessAnalystEpicCreationPolicy = new BusinessAnalystEpicCreationPolicy();
+        var policies = new List<IEpicPolicy> { businessAnalystEpicCreationPolicy };
+
         IEpicCreationService epicCreationService = new EpicCreationService(policies);
         IEpicUpdateService epicEpicUpdateService = new EpicUpdateService(policies);
-        _epicsService = new EpicsService(epicRepository, epicCreationService, epicEpicUpdateService);
+
+        // Mock IUserContext to return BusinessAnalyst for tests
+        var userContextMock = new Mock<IUserContext>();
+        userContextMock.Setup(x => x.GetCurrentUserJobTitle()).Returns(JobTitle.BusinessAnalyst);
+
+        _epicsService = new EpicsService(epicRepository, epicCreationService, epicEpicUpdateService, userContextMock.Object);
         _createFinalEpicCommand = new CreateFinalEpic(EpicId, "Name", "New", "Description", "AcceptanceCriteria", DateTimeOffset.Now);
         _createDraftEpicCommand = new CreateDraftEpic(EpicId, "Name", DateTimeOffset.Now);
         _updateFinalEpicCommand = new UpdateFinalEpic(EpicId, "NameUpdated", "NewUpdated", "DescriptionUpdated", "AcceptanceCriteriaUpdated");
@@ -159,7 +167,7 @@ public class EpicsServiceTests
         actualEpic.AcceptanceCriteria.ShouldBe<AcceptanceCriteria>(expectedEpic.AcceptanceCriteria);
     }
     
-    private static void ValidateUpdatedDraftEpic(DraftEpic actualEpic, UpdateFinalEpic expectedEpic)
+    private static void ValidateUpdatedDraftEpic(DraftEpic actualEpic, UpdateDraftEpic expectedEpic)
     {
         actualEpic.Name.ShouldBe<Name>(expectedEpic.Name);
     }
@@ -182,7 +190,8 @@ public class EpicsServiceTests
     private async Task Cleanup()
     {
         var allEpics = await _epicsService.GetAllEpicAsync();
-        foreach (var epic in allEpics)
+        // Convert to list to avoid "Collection was modified" error
+        foreach (var epic in allEpics.ToList())
         {
             await _epicsService.DeleteEpicAsync(new DeleteEpic(epic.Id));
         }

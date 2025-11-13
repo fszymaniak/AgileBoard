@@ -6,6 +6,29 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AgileBoard.Api.Controllers;
 
+/// <summary>
+/// Epics controller - handles epic creation, updates, and retrieval.
+///
+/// AUTHENTICATION & AUTHORIZATION:
+/// When authentication is enabled, the user's JobTitle must be set in the JWT token claims.
+/// The claim can be named either "JobTitle" or "role".
+///
+/// Valid JobTitle values:
+/// - BusinessAnalyst
+/// - ProductOwner
+/// - ScrumMaster
+/// - DevelopmentTeamMember
+///
+/// Example JWT claim configuration:
+/// new Claim("JobTitle", "ProductOwner")
+/// or
+/// new Claim("role", "DevelopmentTeamMember")
+///
+/// Different roles have different permissions as defined by the policy classes:
+/// - BusinessAnalyst & ProductOwner: Can create/update both FinalEpic and DraftEpic
+/// - ScrumMaster: Can create/update DraftEpic only
+/// - DevelopmentTeamMember: Can create/update DraftEpic only
+/// </summary>
 [ApiController]
 [Route("epics")]
 public sealed class EpicsController : ControllerBase
