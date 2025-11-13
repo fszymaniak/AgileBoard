@@ -27,11 +27,13 @@ internal sealed class PostgresEpicRepository : IEpicRepository
     public async Task UpdateEpicAsync(FinalEpic existingEpic)
     {
         var epicToUpdate = await GetEpicAsync<FinalEpic>(existingEpic.Id);
-        
+
         epicToUpdate?.ChangeName(existingEpic.Name);
         epicToUpdate?.ChangeStatus(existingEpic.Status);
         epicToUpdate?.ChangeDescription(existingEpic.Description);
         epicToUpdate?.ChangeAcceptanceCriteria(existingEpic.AcceptanceCriteria);
+
+        await _dbContext.SaveChangesAsync();
     }
     
     public async Task UpdateEpicAsync(DraftEpic existingEpic)
@@ -39,6 +41,8 @@ internal sealed class PostgresEpicRepository : IEpicRepository
         var epicToUpdate = await GetEpicAsync<DraftEpic>(existingEpic.Id);
 
         epicToUpdate?.ChangeName(existingEpic.Name);
+
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task DeleteEpicAsync(Epic epic)

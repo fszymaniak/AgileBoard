@@ -18,33 +18,18 @@ public class FinalEpic : Epic
         AcceptanceCriteria = acceptanceCriteria;
     }
     
-    public void ChangeStatus(string status)
+    public void ChangeStatus(Status status)
     {
-        if (string.IsNullOrWhiteSpace(status))
-        {
-            throw new EmptyStatusException();
-        }
-
         Status = status;
     }
-    
-    public void ChangeDescription(string description)
-    {
-        if (string.IsNullOrWhiteSpace(description))
-        {
-            throw new EmptyDescriptionException();
-        }
 
+    public void ChangeDescription(Description description)
+    {
         Description = description;
     }
-    
-    public void ChangeAcceptanceCriteria(string acceptanceCriteria)
-    {
-        if (string.IsNullOrWhiteSpace(acceptanceCriteria))
-        {
-            throw new EmptyAcceptanceCriteriaException();
-        }
 
+    public void ChangeAcceptanceCriteria(AcceptanceCriteria acceptanceCriteria)
+    {
         AcceptanceCriteria = acceptanceCriteria;
     }
 }

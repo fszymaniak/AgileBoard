@@ -43,7 +43,7 @@ public class EpicCreationService : IEpicCreationService
 
         if (!policy.CanCreateDraftEpic())
         {
-            throw new CannotCreateFinalEpicException(jobTitle);
+            throw new CannotCreateDraftEpicException(jobTitle);
         }
         
         await epicRepository.AddEpicAsync(epic);

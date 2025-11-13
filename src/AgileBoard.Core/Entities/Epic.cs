@@ -22,13 +22,8 @@ public abstract class Epic
         CreatedDate = createdDate;
     }
 
-    public void ChangeName(string name)
+    public void ChangeName(Name name)
     {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new EmptyNameException();
-        }
-
         Name = name;
     }
 }
