@@ -48,9 +48,10 @@ public class EpicsServiceTests
         var isUpdated = await _epicsService.UpdateFinalEpicAsync(_updateFinalEpicCommand);
         isUpdated.ShouldBeTrue();
 
+        updatedEpic.ShouldNotBeNull();
         ValidateUpdatedFinalEpic(updatedEpic, _updateFinalEpicCommand);
     }
-    
+
     [Fact]
     public async Task given_epic_update_draft_with_valid_parameters_should_pass()
     {
@@ -60,6 +61,7 @@ public class EpicsServiceTests
         var isUpdated = await _epicsService.UpdateDraftEpicAsync(_updateDraftEpicCommand);
         isUpdated.ShouldBeTrue();
 
+        updatedEpic.ShouldNotBeNull();
         ValidateUpdatedDraftEpic(updatedEpic, _updateDraftEpicCommand);
     }
     
@@ -183,7 +185,7 @@ public class EpicsServiceTests
     
     private static void ValidateCreatedDraftEpic(DraftEpic? finalActualEpic, CreateDraftEpic expectedEpic)
     {
-        finalActualEpic.Name.ShouldBe<Name>(expectedEpic.Name);
+        finalActualEpic!.Name.ShouldBe<Name>(expectedEpic.Name);
         finalActualEpic.CreatedDate.ShouldBe<Date>(expectedEpic.CreatedDate);
     }
 
