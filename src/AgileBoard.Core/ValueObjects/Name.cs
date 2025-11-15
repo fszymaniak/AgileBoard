@@ -2,9 +2,19 @@ using AgileBoard.Core.Exceptions;
 
 namespace AgileBoard.Core.ValueObjects;
 
-public sealed record Name(string Value)
+public sealed record Name
 {
-    public string Value { get; set; } = Value ?? throw new EmptyNameException();
+    public string Value { get; }
+
+    public Name(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            throw new EmptyNameException();
+        }
+
+        Value = value;
+    }
 
     public static implicit operator string(Name name) => name.Value;
 

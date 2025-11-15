@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using AgileBoard.Core.Entities;
+﻿using AgileBoard.Core.Entities;
 using AgileBoard.Core.Exceptions;
 using AgileBoard.Core.Repositories;
 using AgileBoard.Core.ValueObjects;
@@ -8,7 +7,7 @@ namespace AgileBoard.Infrastructure.DAL.Repositories;
 
 internal class InMemoryEpicRepository : IEpicRepository
 {
-    private static readonly List<Epic> Epics = new();
+    private readonly List<Epic> Epics = new();
     
     public Task<T?> GetEpicAsync<T>(EpicId? id) where T : Epic => Task.FromResult(Epics.OfType<T>().SingleOrDefault(e => e.Id.Equals(id)) ?? throw new EpicDoesNotExist())!;
     

@@ -1,10 +1,20 @@
-﻿using AgileBoard.Core.Exceptions;
+using AgileBoard.Core.Exceptions;
 
 namespace AgileBoard.Core.ValueObjects;
 
-public sealed record AcceptanceCriteria(string Value)
+public sealed record AcceptanceCriteria
 {
-    public string Value { get; } = Value ?? throw new EmptyAcceptanceCriteriaException();
+    public string Value { get; }
+
+    public AcceptanceCriteria(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            throw new EmptyAcceptanceCriteriaException();
+        }
+
+        Value = value;
+    }
 
     public static implicit operator string(AcceptanceCriteria acceptanceCriteria) => acceptanceCriteria.Value;
 
