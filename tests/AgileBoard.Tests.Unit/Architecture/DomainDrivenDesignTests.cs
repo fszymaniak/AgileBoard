@@ -115,7 +115,7 @@ public class DomainDrivenDesignTests
     public void Commands_Should_Be_Immutable_Records()
     {
         // Arrange
-        var applicationAssembly = typeof(AgileBoard.Application.Services.IEpicsService).Assembly;
+        var applicationAssembly = typeof(AgileBoard.Application.Services.EpicsService.IEpicsService).Assembly;
 
         // Act
         var result = Types.InAssembly(applicationAssembly)
@@ -136,7 +136,7 @@ public class DomainDrivenDesignTests
     {
         // Arrange
         var coreAssembly = typeof(AgileBoard.Core.Entities.Epic).Assembly;
-        var applicationAssembly = typeof(AgileBoard.Application.Services.IEpicsService).Assembly;
+        var applicationAssembly = typeof(AgileBoard.Application.Services.EpicsService.IEpicsService).Assembly;
 
         // Act - Check Core has only interfaces
         var coreResult = Types.InAssembly(coreAssembly)
@@ -149,20 +149,18 @@ public class DomainDrivenDesignTests
             .GetResult();
 
         // Act - Check Application has no repositories
-        var applicationResult = Types.InAssembly(applicationAssembly)
+        var applicationTypes = Types.InAssembly(applicationAssembly)
             .That()
             .HaveNameEndingWith("Repository")
-            .Should()
-            .NotExist()
-            .GetResult();
+            .GetTypes();
 
         // Assert
         Assert.True(coreResult.IsSuccessful, $"Core layer should only have repository interfaces. Violations: {string.Join(", ", coreResult.FailingTypeNames ?? new List<string>())}");
-        Assert.True(applicationResult.IsSuccessful, $"Application layer should not contain repository implementations. Violations: {string.Join(", ", applicationResult.FailingTypeNames ?? new List<string>())}");
+        Assert.Empty(applicationTypes);
     }
 
     [Fact]
-    public void Domain_Services_Should_Only_Depend_On_Domain_Layer()
+    public void Domain_Services_Should_Not_Depend_On_Application_Layer()
     {
         // Arrange
         var coreAssembly = typeof(AgileBoard.Core.Entities.Epic).Assembly;
@@ -175,16 +173,50 @@ public class DomainDrivenDesignTests
             .AreClasses()
             .ShouldNot()
             .HaveDependencyOn("AgileBoard.Application")
+            .GetResult();
+
+        // Assert
+        Assert.True(result.IsSuccessful, $"Domain services should not depend on Application layer. Violations: {string.Join(", ", result.FailingTypeNames ?? new List<string>())}");
+    }
+
+    [Fact]
+    public void Domain_Services_Should_Not_Depend_On_Infrastructure_Layer()
+    {
+        // Arrange
+        var coreAssembly = typeof(AgileBoard.Core.Entities.Epic).Assembly;
+
+        // Act
+        var result = Types.InAssembly(coreAssembly)
+            .That()
+            .ResideInNamespace("AgileBoard.Core.DomainServices")
             .And()
+            .AreClasses()
             .ShouldNot()
             .HaveDependencyOn("AgileBoard.Infrastructure")
+            .GetResult();
+
+        // Assert
+        Assert.True(result.IsSuccessful, $"Domain services should not depend on Infrastructure layer. Violations: {string.Join(", ", result.FailingTypeNames ?? new List<string>())}");
+    }
+
+    [Fact]
+    public void Domain_Services_Should_Not_Depend_On_Api_Layer()
+    {
+        // Arrange
+        var coreAssembly = typeof(AgileBoard.Core.Entities.Epic).Assembly;
+
+        // Act
+        var result = Types.InAssembly(coreAssembly)
+            .That()
+            .ResideInNamespace("AgileBoard.Core.DomainServices")
             .And()
+            .AreClasses()
             .ShouldNot()
             .HaveDependencyOn("AgileBoard.Api")
             .GetResult();
 
         // Assert
-        Assert.True(result.IsSuccessful, $"Domain services should only depend on other domain layer components. Violations: {string.Join(", ", result.FailingTypeNames ?? new List<string>())}");
+        Assert.True(result.IsSuccessful, $"Domain services should not depend on Api layer. Violations: {string.Join(", ", result.FailingTypeNames ?? new List<string>())}");
     }
 
     [Fact]

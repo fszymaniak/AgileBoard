@@ -71,7 +71,7 @@ public class NamingConventionTests
     public void Services_Should_Have_Service_Suffix()
     {
         // Arrange
-        var applicationAssembly = typeof(AgileBoard.Application.Services.IEpicsService).Assembly;
+        var applicationAssembly = typeof(AgileBoard.Application.Services.EpicsService.IEpicsService).Assembly;
 
         // Act
         var result = Types.InAssembly(applicationAssembly)
@@ -115,7 +115,7 @@ public class NamingConventionTests
     public void Service_Interfaces_Should_Start_With_I()
     {
         // Arrange
-        var applicationAssembly = typeof(AgileBoard.Application.Services.IEpicsService).Assembly;
+        var applicationAssembly = typeof(AgileBoard.Application.Services.EpicsService.IEpicsService).Assembly;
 
         // Act
         var result = Types.InAssembly(applicationAssembly)
@@ -197,7 +197,7 @@ public class NamingConventionTests
     public void DTOs_Should_Have_Dto_Suffix()
     {
         // Arrange
-        var applicationAssembly = typeof(AgileBoard.Application.Services.IEpicsService).Assembly;
+        var applicationAssembly = typeof(AgileBoard.Application.Services.EpicsService.IEpicsService).Assembly;
 
         // Act
         var result = Types.InAssembly(applicationAssembly)

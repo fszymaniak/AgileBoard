@@ -68,7 +68,7 @@ public class LayerDependencyTests
     public void Application_Should_Not_Depend_On_Infrastructure_Layer()
     {
         // Arrange
-        var applicationAssembly = typeof(AgileBoard.Application.Services.IEpicsService).Assembly;
+        var applicationAssembly = typeof(AgileBoard.Application.Services.EpicsService.IEpicsService).Assembly;
 
         // Act
         var result = Types.InAssembly(applicationAssembly)
@@ -86,7 +86,7 @@ public class LayerDependencyTests
     public void Application_Should_Not_Depend_On_Api_Layer()
     {
         // Arrange
-        var applicationAssembly = typeof(AgileBoard.Application.Services.IEpicsService).Assembly;
+        var applicationAssembly = typeof(AgileBoard.Application.Services.EpicsService.IEpicsService).Assembly;
 
         // Act
         var result = Types.InAssembly(applicationAssembly)
@@ -104,7 +104,7 @@ public class LayerDependencyTests
     public void Application_Should_Depend_On_Core_Layer()
     {
         // Arrange
-        var applicationAssembly = typeof(AgileBoard.Application.Services.IEpicsService).Assembly;
+        var applicationAssembly = typeof(AgileBoard.Application.Services.EpicsService.IEpicsService).Assembly;
 
         // Act
         var result = Types.InAssembly(applicationAssembly)
