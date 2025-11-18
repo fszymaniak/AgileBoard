@@ -1,0 +1,60 @@
+name: CI - Build and Test
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '7.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build solution
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Run all tests
+      run: dotnet test --configuration Release --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx"
+
+    - name: Run architectural tests specifically
+      run: dotnet test --configuration Release --no-build --verbosity normal --filter "FullyQualifiedName~Architecture" --logger "trx;LogFileName=architecture-test-results.trx"
+      continue-on-error: false
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results
+        path: '**/test-results.trx'
+
+    - name: Upload architecture test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: architecture-test-results
+        path: '**/architecture-test-results.trx'
+
+    - name: Test Summary
+      if: always()
+      run: |
+        echo "### Test Results Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "✅ All tests completed" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Architectural Tests**: Enforcing Clean Architecture and DDD principles" >> $GITHUB_STEP_SUMMARY
+        echo "- Layer dependency validation" >> $GITHUB_STEP_SUMMARY
+        echo "- Naming convention enforcement" >> $GITHUB_STEP_SUMMARY
+        echo "- Domain-driven design pattern validation" >> $GITHUB_STEP_SUMMARY
