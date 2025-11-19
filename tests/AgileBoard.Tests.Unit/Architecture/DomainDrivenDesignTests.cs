@@ -168,7 +168,7 @@ public class DomainDrivenDesignTests
         // Act
         var result = Types.InAssembly(coreAssembly)
             .That()
-            .ResideInNamespace("AgileBoard.Core.DomainServices")
+            .ResideInNamespaceStartingWith("AgileBoard.Core.DomainServices")
             .And()
             .AreClasses()
             .ShouldNot()
@@ -188,7 +188,7 @@ public class DomainDrivenDesignTests
         // Act
         var result = Types.InAssembly(coreAssembly)
             .That()
-            .ResideInNamespace("AgileBoard.Core.DomainServices")
+            .ResideInNamespaceStartingWith("AgileBoard.Core.DomainServices")
             .And()
             .AreClasses()
             .ShouldNot()
@@ -208,7 +208,7 @@ public class DomainDrivenDesignTests
         // Act
         var result = Types.InAssembly(coreAssembly)
             .That()
-            .ResideInNamespace("AgileBoard.Core.DomainServices")
+            .ResideInNamespaceStartingWith("AgileBoard.Core.DomainServices")
             .And()
             .AreClasses()
             .ShouldNot()

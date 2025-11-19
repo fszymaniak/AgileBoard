@@ -76,7 +76,7 @@ public class NamingConventionTests
         // Act
         var result = Types.InAssembly(applicationAssembly)
             .That()
-            .ResideInNamespace("AgileBoard.Application.Services")
+            .ResideInNamespaceStartingWith("AgileBoard.Application.Services")
             .And()
             .AreClasses()
             .And()
@@ -98,7 +98,7 @@ public class NamingConventionTests
         // Act
         var result = Types.InAssembly(coreAssembly)
             .That()
-            .ResideInNamespace("AgileBoard.Core.DomainServices")
+            .ResideInNamespaceStartingWith("AgileBoard.Core.DomainServices")
             .And()
             .AreClasses()
             .And()
@@ -120,7 +120,7 @@ public class NamingConventionTests
         // Act
         var result = Types.InAssembly(applicationAssembly)
             .That()
-            .ResideInNamespace("AgileBoard.Application.Services")
+            .ResideInNamespaceStartingWith("AgileBoard.Application.Services")
             .And()
             .AreInterfaces()
             .Should()
