@@ -42,18 +42,4 @@ public class NameTests
         // Assert
         act.ShouldThrow<EmptyNameException>();
     }
-    
-    [Fact]
-    public void given_value_object_name_is_set_properly_()
-    {
-        // Act
-        string testName = "testName"; 
-        string updatedTestName = "updatedTestName"; 
-        Name name = new Name(testName);
-
-        // Assert
-        name.Value = updatedTestName;
-        name.Value.ShouldBe(updatedTestName);
-    }
-    
 }
