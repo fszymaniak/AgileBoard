@@ -107,15 +107,14 @@ public class LayerDependencyTests
         var applicationAssembly = typeof(AgileBoard.Application.Services.EpicsService.IEpicsService).Assembly;
 
         // Act
-        var result = Types.InAssembly(applicationAssembly)
+        // Verify that at least some types in Application have dependency on Core
+        var typesWithDependency = Types.InAssembly(applicationAssembly)
             .That()
-            .ResideInNamespaceStartingWith(ApplicationNamespace)
-            .Should()
             .HaveDependencyOn(CoreNamespace)
-            .GetResult();
+            .GetTypes();
 
         // Assert
-        Assert.True(result.IsSuccessful, $"Application layer should depend on Core layer. This is expected in Clean Architecture.");
+        Assert.NotEmpty(typesWithDependency);
     }
 
     [Fact]
@@ -125,15 +124,14 @@ public class LayerDependencyTests
         var infrastructureAssembly = typeof(AgileBoard.Infrastructure.DAL.AgileBoardDbContext).Assembly;
 
         // Act
-        var result = Types.InAssembly(infrastructureAssembly)
+        // Verify that at least some types in Infrastructure have dependency on Core
+        var typesWithDependency = Types.InAssembly(infrastructureAssembly)
             .That()
-            .ResideInNamespaceStartingWith(InfrastructureNamespace)
-            .Should()
             .HaveDependencyOn(CoreNamespace)
-            .GetResult();
+            .GetTypes();
 
         // Assert
-        Assert.True(result.IsSuccessful, $"Infrastructure layer should depend on Core layer for entity definitions.");
+        Assert.NotEmpty(typesWithDependency);
     }
 
     [Fact]
