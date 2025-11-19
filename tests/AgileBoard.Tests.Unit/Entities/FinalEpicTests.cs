@@ -77,7 +77,7 @@ public class FinalEpicTests
             
         // ASSERT
         exception.ShouldNotBeNull();
-        exception.ShouldBeOfType<DescriptionOverMaxCharLimit>();
+        exception.ShouldBeOfType<DescriptionOverMaxCharLimitException>();
         exception.Message.ShouldBe("Description over the max characters limit.");
     }
     

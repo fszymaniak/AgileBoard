@@ -73,7 +73,7 @@ public class EpicsServiceTests
             
         // ASSERT
         exception.ShouldNotBeNull();
-        exception.ShouldBeOfType<EpicDoesNotExist>();
+        exception.ShouldBeOfType<EpicDoesNotExistException>();
         exception.Message.ShouldBe("Epic does not exist.");
     }
     
@@ -97,7 +97,7 @@ public class EpicsServiceTests
             
         // ASSERT
         exception.ShouldNotBeNull();
-        exception.ShouldBeOfType<EpicDoesNotExist>();
+        exception.ShouldBeOfType<EpicDoesNotExistException>();
         exception.Message.ShouldBe("Epic does not exist.");
     }
     

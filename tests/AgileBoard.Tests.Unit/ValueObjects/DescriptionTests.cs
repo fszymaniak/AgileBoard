@@ -58,6 +58,6 @@ public class DescriptionTests
         };
 
         // Assert
-        act.ShouldThrow<DescriptionOverMaxCharLimit>();
+        act.ShouldThrow<DescriptionOverMaxCharLimitException>();
     }
 }

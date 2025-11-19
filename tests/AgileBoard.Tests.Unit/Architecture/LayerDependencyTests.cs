@@ -109,7 +109,7 @@ public class LayerDependencyTests
         // Act
         var result = Types.InAssembly(applicationAssembly)
             .That()
-            .ResideInNamespace(ApplicationNamespace)
+            .ResideInNamespaceStartingWith(ApplicationNamespace)
             .Should()
             .HaveDependencyOn(CoreNamespace)
             .GetResult();
@@ -127,9 +127,7 @@ public class LayerDependencyTests
         // Act
         var result = Types.InAssembly(infrastructureAssembly)
             .That()
-            .ResideInNamespace(InfrastructureNamespace)
-            .And()
-            .ResideInNamespace("AgileBoard.Infrastructure.DAL")
+            .ResideInNamespaceStartingWith(InfrastructureNamespace)
             .Should()
             .HaveDependencyOn(CoreNamespace)
             .GetResult();

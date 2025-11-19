@@ -15,7 +15,7 @@ public sealed record Description
         
         if (value.Length > 500)
         {
-            throw new DescriptionOverMaxCharLimit();
+            throw new DescriptionOverMaxCharLimitException();
         }
 
         Value = value;
