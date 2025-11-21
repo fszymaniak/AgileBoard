@@ -1,4 +1,5 @@
 ﻿using AgileBoard.Application.Commands;
+using AgileBoard.Application.Services.CurrentUserService;
 using AgileBoard.Application.Services.EpicsService;
 using AgileBoard.Core.DomainServices.Creation;
 using AgileBoard.Core.DomainServices.Update;
@@ -144,7 +145,13 @@ public class EpicsServiceTests
         policies.Add(businessAnalystEpicCreationPolicy);
         IEpicCreationService epicCreationService = new EpicCreationService(policies);
         IEpicUpdateService epicEpicUpdateService = new EpicUpdateService(policies);
-        _epicsService = new EpicsService(epicRepository, epicCreationService, epicEpicUpdateService);
+
+        // Mock ICurrentUserService to return BusinessAnalyst
+        var mockCurrentUserService = new Mock<ICurrentUserService>();
+        mockCurrentUserService.Setup(x => x.GetCurrentUserJobTitle()).Returns(JobTitle.BusinessAnalyst);
+        mockCurrentUserService.Setup(x => x.IsAuthenticated).Returns(true);
+
+        _epicsService = new EpicsService(epicRepository, epicCreationService, epicEpicUpdateService, mockCurrentUserService.Object);
         _createFinalEpicCommand = new CreateFinalEpic(EpicId, "Name", "New", "Description", "AcceptanceCriteria", DateTimeOffset.Now);
         _createDraftEpicCommand = new CreateDraftEpic(EpicId, "Name", DateTimeOffset.Now);
         _updateFinalEpicCommand = new UpdateFinalEpic(EpicId, "NameUpdated", "NewUpdated", "DescriptionUpdated", "AcceptanceCriteriaUpdated");

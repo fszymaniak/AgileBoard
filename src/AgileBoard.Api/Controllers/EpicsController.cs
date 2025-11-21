@@ -2,10 +2,12 @@
 using AgileBoard.Application.Services.Clock;
 using AgileBoard.Application.Services.EpicsService;
 using AgileBoard.Core.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgileBoard.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("epics")]
 public sealed class EpicsController : ControllerBase

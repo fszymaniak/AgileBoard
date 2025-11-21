@@ -1,5 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using AgileBoard.Application.Services.Clock;
+using AgileBoard.Application.Services.CurrentUserService;
+using AgileBoard.Infrastructure.Auth;
 using AgileBoard.Infrastructure.DAL;
 using AgileBoard.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Builder;
@@ -15,19 +17,24 @@ public static class Extensions
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton<ExceptionMiddleware>();
-        
+
         services
             .AddPostgres(configuration)
             .AddSingleton<IClock, Clock.Clock>();
-        
-        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); 
-            
+
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
+
         return services;
     }
 
     public static WebApplication UseInfrastructure(this WebApplication app)
     {
         app.UseMiddleware<ExceptionMiddleware>();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+
         app.MapControllers();
 
         return app;
