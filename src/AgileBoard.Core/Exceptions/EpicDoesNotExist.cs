@@ -1,8 +1,8 @@
 namespace AgileBoard.Core.Exceptions;
 
-public class EpicDoesNotExist : CustomException
+public class EpicDoesNotExistException : CustomException
 {
-    public EpicDoesNotExist() : base($"Epic does not exist.")
+    public EpicDoesNotExistException() : base($"Epic does not exist.")
     {
     }
 }

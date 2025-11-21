@@ -1,8 +1,8 @@
 ﻿namespace AgileBoard.Core.Exceptions;
 
-public class DescriptionOverMaxCharLimit : CustomException
+public class DescriptionOverMaxCharLimitException : CustomException
 {
-    public DescriptionOverMaxCharLimit() : base($"Description over the max characters limit.")
+    public DescriptionOverMaxCharLimitException() : base($"Description over the max characters limit.")
     {
     }
 }

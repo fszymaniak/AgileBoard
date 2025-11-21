@@ -10,7 +10,7 @@ internal class InMemoryEpicRepository : IEpicRepository
 {
     private static readonly List<Epic> Epics = new();
     
-    public Task<T?> GetEpicAsync<T>(EpicId? id) where T : Epic => Task.FromResult(Epics.OfType<T>().SingleOrDefault(e => e.Id.Equals(id)) ?? throw new EpicDoesNotExist())!;
+    public Task<T?> GetEpicAsync<T>(EpicId? id) where T : Epic => Task.FromResult(Epics.OfType<T>().SingleOrDefault(e => e.Id.Equals(id)) ?? throw new EpicDoesNotExistException())!;
     
     public Task<IEnumerable<Epic>> GetAllEpicAsync() => Task.FromResult(Epics.AsEnumerable());
 

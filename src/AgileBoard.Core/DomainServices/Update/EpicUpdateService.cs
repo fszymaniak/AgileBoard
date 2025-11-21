@@ -21,7 +21,7 @@ public class EpicUpdateService : IEpicUpdateService
 
         if (policy is null)
         {
-            throw new NoEpicReservationPolicyFound(jobTitle);
+            throw new NoEpicReservationPolicyFoundException(jobTitle);
         }
 
         if (!policy.CanUpdateFinalEpic())
@@ -43,7 +43,7 @@ public class EpicUpdateService : IEpicUpdateService
 
         if (policy is null)
         {
-            throw new NoEpicReservationPolicyFound(jobTitle);
+            throw new NoEpicReservationPolicyFoundException(jobTitle);
         }
 
         if (!policy.CanUpdateDraftEpic())

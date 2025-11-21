@@ -2,11 +2,11 @@
 
 namespace AgileBoard.Core.Exceptions;
 
-public sealed class NoEpicReservationPolicyFound : CustomException
+public sealed class NoEpicReservationPolicyFoundException : CustomException
 {
     public JobTitle JobTitle { get; }
 
-    public NoEpicReservationPolicyFound(JobTitle jobTitle) : base($"No Epic policy for {jobTitle} has been found.")
+    public NoEpicReservationPolicyFoundException(JobTitle jobTitle) : base($"No Epic policy for {jobTitle} has been found.")
     {
         JobTitle = jobTitle;
     }

@@ -47,7 +47,7 @@ public class EpicsServiceTests
         var isUpdated = await _epicsService.UpdateFinalEpicAsync(_updateFinalEpicCommand);
         isUpdated.ShouldBeTrue();
 
-        ValidateUpdatedFinalEpic(updatedEpic, _updateFinalEpicCommand);
+        ValidateUpdatedFinalEpic(updatedEpic!, _updateFinalEpicCommand);
     }
     
     [Fact]
@@ -59,7 +59,7 @@ public class EpicsServiceTests
         var isUpdated = await _epicsService.UpdateDraftEpicAsync(_updateDraftEpicCommand);
         isUpdated.ShouldBeTrue();
 
-        ValidateUpdatedDraftEpic(updatedEpic, _updateFinalEpicCommand);
+        ValidateUpdatedDraftEpic(updatedEpic!, _updateFinalEpicCommand);
     }
     
     [Fact]
@@ -73,7 +73,7 @@ public class EpicsServiceTests
             
         // ASSERT
         exception.ShouldNotBeNull();
-        exception.ShouldBeOfType<EpicDoesNotExist>();
+        exception.ShouldBeOfType<EpicDoesNotExistException>();
         exception.Message.ShouldBe("Epic does not exist.");
     }
     
@@ -97,7 +97,7 @@ public class EpicsServiceTests
             
         // ASSERT
         exception.ShouldNotBeNull();
-        exception.ShouldBeOfType<EpicDoesNotExist>();
+        exception.ShouldBeOfType<EpicDoesNotExistException>();
         exception.Message.ShouldBe("Epic does not exist.");
     }
     
@@ -175,7 +175,7 @@ public class EpicsServiceTests
     
     private static void ValidateCreatedDraftEpic(DraftEpic? finalActualEpic, CreateDraftEpic expectedEpic)
     {
-        finalActualEpic.Name.ShouldBe<Name>(expectedEpic.Name);
+        finalActualEpic!.Name.ShouldBe<Name>(expectedEpic.Name);
         finalActualEpic.CreatedDate.ShouldBe<Date>(expectedEpic.CreatedDate);
     }
 

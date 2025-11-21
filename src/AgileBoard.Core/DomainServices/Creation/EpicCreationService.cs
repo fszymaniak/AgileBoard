@@ -21,7 +21,7 @@ public class EpicCreationService : IEpicCreationService
 
         if (policy is null)
         {
-            throw new NoEpicReservationPolicyFound(jobTitle);
+            throw new NoEpicReservationPolicyFoundException(jobTitle);
         }
 
         if (!policy.CanCreateFinalEpic())
@@ -38,7 +38,7 @@ public class EpicCreationService : IEpicCreationService
 
         if (policy is null)
         {
-            throw new NoEpicReservationPolicyFound(jobTitle);
+            throw new NoEpicReservationPolicyFoundException(jobTitle);
         }
 
         if (!policy.CanCreateDraftEpic())
